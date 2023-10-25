@@ -1,6 +1,7 @@
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import WalletPage from "./pages/WalletPage";
 import "./style.scss";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useContext } from "react";
@@ -11,7 +12,8 @@ function App() {
 
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
-      return <Navigate to="/login" />;
+      //return <Navigate to="/login" />;
+      return <Navigate to="/walletpage" />; 
     }
 
     return children
@@ -31,6 +33,7 @@ function App() {
           />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="walletpage" element={<WalletPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
