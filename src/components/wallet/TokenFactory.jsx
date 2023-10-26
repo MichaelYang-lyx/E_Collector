@@ -86,30 +86,7 @@ const TokenFactory = () => {
 
 
 
-/*
-	useEffect(() => {
-		if (contract != null) {
-			updateBalance();
-			updateTokenName();
-		}
-	}, [contract])
 
-	const updateBalance = async () => {
-		let balanceBigN = await contract.balanceOf(defaultAccount);
-		let tokenBalance = balanceBigN.toNumber();
-
-		//let decimals = await contract.decimals();
-
-		//let tokenBalance = balanceNumber / Math.pow(10, 2);
-
-		setBalance(tokenBalance);
-		console.log(tokenBalance);
-	}
-
-	const updateTokenName = async () => {
-		setTokenName(await contract.getTname());
-	}
-	*/
 return (
 	<div>
 		<h2> {"Factory ERC-20 Wallet"} </h2>

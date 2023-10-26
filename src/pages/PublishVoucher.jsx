@@ -6,7 +6,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
 
-const Register = () => {
+const PublishVoucher = () => {
   const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -85,4 +85,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default PublishVoucher;
