@@ -54,6 +54,8 @@ const Login2 = () => {
 
       if (addressQuerySnapshot.empty) {
         // Email already exists, throw an error
+
+        console.log(addressQuerySnapshot.empty);
         setErr(true);
         setErrorMessage(
           `Address:[${address}] has not been used for registration`
@@ -62,15 +64,20 @@ const Login2 = () => {
           `Address:[${address}] has not been used to create a wallet`
         );
       }
-      ;
-
       const email = addressQuerySnapshot.docs[0].data().email;
 
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        navigate("/");
+      } catch (err) {
+        setErr(true);
+        setErrorMessage("Incorrect Password. Please try again.");
+      }
+
     } catch (err) {
       setErr(true);
     }
+    
   };
   return (
     <div className="formContainer">

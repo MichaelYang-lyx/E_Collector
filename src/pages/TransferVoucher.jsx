@@ -10,7 +10,7 @@ import "../style.scss";
 import styles from "../components/wallet/Wallet.module.css";
 import { AuthContext } from "../context/AuthContext";
 import { ethers } from "ethers";
-
+import GetBack from '../components/GetBack'
 import { db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {
@@ -21,9 +21,9 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
-import GetBack from "../components/GetBack";
 
-const PublishVoucher = () => {
+
+const TransferVoucher = () => {
   const tokenfactory_abi = tokenfactoryData.abi;
 
   const [err, setErr] = useState(false);
@@ -31,9 +31,11 @@ const PublishVoucher = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const { currentUser } = useContext(AuthContext);
 
+  const [latestTokenAddress, setLatestTokenAddress] = useState(null);
   const [contract, setContract] = useState(null);
 
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const [fileUploaded, setFileUploaded] = useState(false);
   const handleFileUpload = (event) => {
@@ -72,7 +74,6 @@ const PublishVoucher = () => {
       // generate productID
       const productID = uuid();
       console.log("productId", productID);
-      const merchant=currentUser.uid;
 
       //Create a unique image name
       const date = new Date().getTime();
@@ -93,7 +94,6 @@ const PublishVoucher = () => {
               uid: productID,
               tName,
               ticker,
-              merchant,
               quantity,
               available_quantity,
               contractAddress,
@@ -165,7 +165,7 @@ const PublishVoucher = () => {
           </button>
         </div>
 
-        <span className="logo"> Create Your Token</span>
+        <span className="logo"> Transfer your Token</span>
         <form onSubmit={handleSubmit}>
           <input required type="text" placeholder="Token Name" />
           <input required type="text" placeholder="Token Ticker" />
@@ -191,4 +191,4 @@ const PublishVoucher = () => {
   );
 };
 
-export default PublishVoucher;
+export default TransferVoucher;

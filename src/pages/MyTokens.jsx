@@ -23,7 +23,7 @@ import {
 } from "firebase/firestore";
 import GetBack from "../components/GetBack";
 
-const PublishVoucher = () => {
+const MyTokens = () => {
   const tokenfactory_abi = tokenfactoryData.abi;
 
   const [err, setErr] = useState(false);
@@ -191,4 +191,4 @@ const PublishVoucher = () => {
   );
 };
 
-export default PublishVoucher;
+export default MyTokens;

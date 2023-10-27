@@ -3,9 +3,16 @@ import Add from "../img/addAvatar.png";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { doc, setDoc,collection, query, where, getDocs } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
-import styles from '../components/wallet/Wallet.module.css'
+import styles from "../components/wallet/Wallet.module.css";
 
 const Register2 = () => {
   const [err, setErr] = useState(false);
@@ -40,23 +47,24 @@ const Register2 = () => {
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-    
+
     const displayName = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
     const file = e.target[3].files[0];
-    const address=defaultAccount;
+    const address = defaultAccount;
     try {
-
-     
-      if (!address){
+      if (!address) {
         setErr(true);
         setErrorMessage(`Please connect to your Metamask wallet`);
         throw new Error("Please connect to your Metamask wallet");
       }
-      const emailQuery =await query(collection(db, "users"), where("email", "==", email));
+      const emailQuery = await query(
+        collection(db, "users"),
+        where("email", "==", email)
+      );
       const emailQuerySnapshot = await getDocs(emailQuery);
-      
+
       if (!emailQuerySnapshot.empty) {
         // Email already exists, throw an error
         setErr(true);
@@ -64,25 +72,28 @@ const Register2 = () => {
         throw new Error("Email already exists");
       }
 
-      const addressQuery =await query(collection(db, "users"), where("address", "==", address));
+      const addressQuery = await query(
+        collection(db, "users"),
+        where("address", "==", address)
+      );
       const addressQuerySnapshot = await getDocs(addressQuery);
-      
+
       if (!addressQuerySnapshot.empty) {
         // Email already exists, throw an error
         setErr(true);
-        setErrorMessage(`Address:[${address}] has already been used for registration`);
-        throw new Error(`Address:[${address}] has already been used for registration`);
+        setErrorMessage(
+          `Address:[${address}] has already been used for registration`
+        );
+        throw new Error(
+          `Address:[${address}] has already been used for registration`
+        );
       }
-
-      
 
       //Create user
       const res = await createUserWithEmailAndPassword(auth, email, password);
       //Create a unique image name
       const date = new Date().getTime();
       const storageRef = ref(storage, `${displayName + date}`);
-
-      
 
       await uploadBytesResumable(storageRef, file).then(() => {
         getDownloadURL(storageRef).then(async (downloadURL) => {
@@ -117,6 +128,12 @@ const Register2 = () => {
     }
   };
 
+  const [fileUploaded, setFileUploaded] = useState(false);
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    setFileUploaded(true);
+  };
+
   return (
     <div className="formContainer">
       <div className="formWrapper">
@@ -127,21 +144,29 @@ const Register2 = () => {
             {connButtonText}
           </button>
         </div>
-        <span className="logo">Lama Chat</span>
+        <span className="logo">E-collector</span>
         <span className="title">Register</span>
         <form onSubmit={handleSubmit}>
           <input required type="text" placeholder="display name" />
           <input required type="email" placeholder="email" />
           <input required type="password" placeholder="password" />
-          <input required style={{ display: "none" }} type="file" id="file" />
+          <input
+            required
+            style={{ display: "none" }}
+            type="file"
+            id="file"
+            onChange={handleFileUpload}
+          />
           <label htmlFor="file">
             <img src={Add} alt="" />
-            <span>Add an avatar</span>
+            <span>Add an profile picture</span>
           </label>
+          {fileUploaded && <p>Picture uploaded successfully!</p>}
           <button disabled={loading}>Sign up</button>
           {loading && "Uploading and compressing the image please wait..."}
           {err && <span>{errorMessage}</span>}
         </form>
+
         <p>
           You do have an account? <Link to="/login2">Login</Link>
         </p>

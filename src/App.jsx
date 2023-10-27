@@ -5,11 +5,16 @@ import Register from "./pages/Register";
 import Register2 from "./pages/Register2";
 import WalletPage from "./pages/WalletPage";
 import PublishVoucher from "./pages/PublishVoucher";
+import TransferVoucher from "./pages/TransferVoucher";
+import MyTokens from "./pages/MyTokens";
 
 import "./style.scss";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import FriendsPage from "./pages/FriendsPage";
+import Navbar from "./components/Navbar";
+
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -31,16 +36,20 @@ function App() {
             index
             element={
               <ProtectedRoute>
-                <Home />
+                <Navbar/>
+                <Home/>
               </ProtectedRoute>
             }
           />
+          <Route path="friendsPage" element={<FriendsPage/>} />
           <Route path="login" element={<Login />} />
           <Route path="login2" element={<Login2/>} />
           <Route path="register" element={<Register />} />
           <Route path="register2" element={<Register2/>} />
           <Route path="walletpage" element={<WalletPage />} />
           <Route path="publishvoucher" element={<PublishVoucher />} />
+          <Route path='transfervoucher' element={<TransferVoucher/>} />
+          <Route path='mytokens' element={<MyTokens/>} />
         </Route>
       </Routes>
     </BrowserRouter>
