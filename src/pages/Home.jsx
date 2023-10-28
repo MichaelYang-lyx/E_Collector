@@ -18,6 +18,7 @@ const Home = () => {
       <p><Link to="/publishVoucher">PublishVoucher</Link></p>
       <p><Link to="/transferVoucher">TransferVoucher</Link></p>
       <p><Link to="/myTokens">MyTokens</Link></p>
+      <p><Link to="/myTokens2">MyTokens2</Link></p>
       </div>
     </div>
   )

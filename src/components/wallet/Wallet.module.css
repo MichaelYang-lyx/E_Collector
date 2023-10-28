@@ -17,7 +17,7 @@
 .interactionsCard {
 	display: flex;
 	flex-direction: column;
-	width: 50%;
+	width: 120%;
 	margin: auto;
 	padding-bottom: 1em;
 	border-radius: 10px;

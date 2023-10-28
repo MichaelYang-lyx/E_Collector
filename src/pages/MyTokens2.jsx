@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-const MyModal = () => {
+const MyTokens2 = () => {
   const [showModal, setShowModal] = useState(false);
 
-  const handleOpenTransfer = () => {
+  const handleOpenModal = () => {
     setShowModal(true);
   };
 
-  const handleCloseTransfer = () => {
+  const handleCloseModal = () => {
     setShowModal(false);
   };
 
@@ -19,12 +19,12 @@ const MyModal = () => {
 
   return (
     <div>
-      <button onClick={handleOpenTransfer}>Open Modal</button>
+      <button onClick={handleOpenModal}>Open Modal</button>
 
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-            <button onClick={handleCloseModal}>×</button>
+            <span className="close" onClick={handleCloseModal}>×</span>
             <form onSubmit={handleSubmit}>
               {/* 在这里添加表单字段 */}
               <button type="submit">Submit</button>
@@ -36,4 +36,4 @@ const MyModal = () => {
   );
 };
 
-export default MyModal;
+export default MyTokens2;

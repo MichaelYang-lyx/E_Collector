@@ -45,10 +45,12 @@ const PublishVoucher = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     //check Wallet First
-    checkWallet();
-    updateEthers();
+    
+    await checkWallet();
+    console.log(contract)
     setLoading(true);
 
+    
     const tName = e.target[0].value;
     const ticker = e.target[1].value;
     const quantity = e.target[2].value;
@@ -56,10 +58,16 @@ const PublishVoucher = () => {
     const file = e.target[3].files[0];
     let contractAddress = "";
 
+    
+
     try {
       // blockchain activity
+      console.log("Create Token");
+      console.log(contract)
       const tx = await contract.createToken(quantity, tName, ticker);
+      
       await tx.wait();
+      
       console.log(tx);
 
       const tokenCount = await contract.tokenCount();
@@ -74,21 +82,13 @@ const PublishVoucher = () => {
       console.log("productId", productID);
       const merchant=currentUser.uid;
 
+
       //Create a unique image name
       const date = new Date().getTime();
       const storageRef = ref(storage, `${ticker + date}`);
       await uploadBytesResumable(storageRef, file).then(() => {
         getDownloadURL(storageRef).then(async (downloadURL) => {
           try {
-            //Update profile
-            /*
-            await updateProfile(res.user, {
-              displayName,
-              photoURL: downloadURL,
-            });
-            */
-            //create user on firestore
-
             await setDoc(doc(db, "products", productID), {
               uid: productID,
               tName,
@@ -111,20 +111,27 @@ const PublishVoucher = () => {
     } catch (err) {
       setErr(true);
       setLoading(false);
+      console.error(err);
     }
   };
 
-  const updateEthers = () => {
+  const updateEthers = async () => {
+    console.log("UpdateEthers");
     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
-    let tempSigner = tempProvider.getSigner();
+    let tempSigner = await tempProvider.getSigner();
     let tempContract = new ethers.Contract(
       contractAddress,
       tokenfactory_abi,
       tempSigner
     );
     setContract(tempContract);
+    console.log("tempContract", tempContract);
+    console.log("contract",contract);
   };
-
+  useEffect(() => {
+    updateEthers();
+  }, []);
+  
   //check the wallet condition
   const checkWallet = async () => {
     const emailQuery = await query(

@@ -7,7 +7,7 @@ import WalletPage from "./pages/WalletPage";
 import PublishVoucher from "./pages/PublishVoucher";
 import TransferVoucher from "./pages/TransferVoucher";
 import MyTokens from "./pages/MyTokens";
-
+import MyTokens2 from "./pages/MyTokens2";
 import "./style.scss";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useContext } from "react";
@@ -50,6 +50,7 @@ function App() {
           <Route path="publishvoucher" element={<PublishVoucher />} />
           <Route path='transfervoucher' element={<TransferVoucher/>} />
           <Route path='mytokens' element={<MyTokens/>} />
+          <Route path='mytokens2' element={<MyTokens2/>} />
         </Route>
       </Routes>
     </BrowserRouter>
