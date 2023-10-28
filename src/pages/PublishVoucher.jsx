@@ -9,7 +9,7 @@ import { contractAddress } from "../Global";
 import "../style.scss";
 import styles from "../components/wallet/Wallet.module.css";
 import { AuthContext } from "../context/AuthContext";
-import { ethers } from "ethers";
+import {ethers} from 'ethers'
 
 import { db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
