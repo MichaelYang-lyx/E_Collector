@@ -90,7 +90,7 @@ const Login2 = () => {
           </button>
         </div>
 
-        <span className="logo">Web3 Chat</span>
+        <span className="logo">E-collector</span>
         <span className="title">Login</span>
         <form onSubmit={handleSubmit}>
           <input type="password" placeholder="password" />
