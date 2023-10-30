@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { React,  useState, useEffect } from "react";
 import { ethers } from "ethers";
 import styles from "./Wallet.module.css";
 import { db } from "../../firebase";
@@ -18,20 +18,22 @@ const Transfers = (props) => {
   const [info, setInfo] = useState(null);
   const [hasInfo, setHasInfo] = useState(false);
 
-  const databaseProcess = async (tokenUid, userID, quantity) => {
+  const databaseProcess = async (contract,tokenUid, userID, quantity) => {
     // process products database
     const docRef2 = doc(db, "products", tokenUid);
     const query2 = await query(
       collection(db, "products"),
       where("uid", "==", tokenUid)
     );
-
+    
     const querySnapshot2 = await getDocs(query2);
     const seller_hold = Number(querySnapshot2.docs[0].data().seller_hold);
     const current_seller_hold = seller_hold - Number(quantity);
-
     const buyer_hold = Number(querySnapshot2.docs[0].data().buyer_hold);
     const current_buyer_hold = buyer_hold + Number(quantity);
+
+    const merchantID = querySnapshot2.docs[0].data().merchant;
+    //更新 products
     await updateDoc(docRef2, {
       uid: tokenUid,
       seller_hold: current_seller_hold,
@@ -43,7 +45,8 @@ const Transfers = (props) => {
 
     const docRef = doc(db, "consumer_tokens", uid);
     const docSnapshot = await getDoc(docRef);
-
+    //更新 consumer_tokens
+    //如果有就加上去
     if (docSnapshot.exists()) {
       console.log("Document exists!");
 
@@ -59,13 +62,17 @@ const Transfers = (props) => {
         uid: uid,
         quantity: current_quantity1,
       });
+
     } else {
+      //如果沒有就新增
+      
       console.log("Document does not exist!");
       await setDoc(doc(db, "consumer_tokens", uid), {
         uid: uid,
         productID: tokenUid,
         userID: userID,
         quantity: Number(quantity),
+        merchantID:merchantID,
       });
     }
 
@@ -93,7 +100,7 @@ const Transfers = (props) => {
       let receipt = await txt.wait();
       if (receipt.status === 1) {
         const userID = querySnapshot1.docs[0].data().uid;
-        await databaseProcess(props.tokenUid, userID, transferAmount);
+        await databaseProcess(props.contract,props.tokenUid, userID, transferAmount);
         await props.setUpdateInfo(props.updateInfo + 1);
         console.log("Transfer finished!");
         await setInfo("Transaction finished!");

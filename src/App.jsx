@@ -5,7 +5,10 @@ import Register from "./pages/Register";
 import Register2 from "./pages/Register2";
 import WalletPage from "./pages/WalletPage";
 import PublishVoucher from "./pages/PublishVoucher";
-import TransferVoucher from "./pages/TransferVoucher";
+import MerchantTrack from "./pages/MerchantTrack";
+import ConsumerTrack from "./pages/ConsumerTrack";
+
+
 import MyTokens from "./pages/MyTokens";
 import MyTokens2 from "./pages/MyTokens2";
 import "./style.scss";
@@ -48,9 +51,10 @@ function App() {
           <Route path="register2" element={<Register2/>} />
           <Route path="walletpage" element={<WalletPage />} />
           <Route path="publishvoucher" element={<PublishVoucher />} />
-          <Route path='transfervoucher' element={<TransferVoucher/>} />
           <Route path='mytokens' element={<MyTokens/>} />
           <Route path='mytokens2' element={<MyTokens2/>} />
+          <Route path='merchanttrack' element={<MerchantTrack/>} />
+          <Route path='consumertrack' element={<ConsumerTrack/>} />
         </Route>
       </Routes>
     </BrowserRouter>

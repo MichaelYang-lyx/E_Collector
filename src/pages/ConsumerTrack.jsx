@@ -1,7 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-
-import tokenfactoryData from "../components/wallet/Contracts/TokenFactory.json";
-
 import "../style.scss";
 
 import { AuthContext } from "../context/AuthContext";
@@ -20,13 +17,13 @@ import GetBack from "../components/GetBack";
 import { ethers } from "ethers";
 import Redeems from "../components/wallet/Redeems";
 
-const MyTokens2 = () => {
+const ConsumerTrack = () => {
   const token_abi = tokenData.abi;
   const { currentUser } = useContext(AuthContext);
 
+
   const [err, setErr] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [showRedeem, setShowRedeem] = useState(false);
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [updateInfo, setUpdateInfo] = useState(0);
@@ -34,7 +31,6 @@ const MyTokens2 = () => {
   const getProducts = async (productID) => {
     const q = query(collection(db, "products"), where("uid", "==", productID));
     try {
-      
       const qSnapshot = await getDocs(q);
       const result = qSnapshot.docs[0].data();
       return result;
@@ -45,24 +41,31 @@ const MyTokens2 = () => {
 
   const handleSearch = async () => {
     const q = query(
-      collection(db, "consumer_tokens"),
-      where("userID", "==", currentUser.uid)
+      collection(db, "tracks"),
+      where("consumerID", "==", currentUser.uid)
     );
 
     try {
       const querySnapshot = await getDocs(q);
       const results = [];
       for (const doc of querySnapshot.docs) {
-        let single_result=doc.data();
+        let single_result = doc.data();
         const product_info = await getProducts(doc.data().productID);
-        let{tName, ticker, contractAddress, photoURL}=product_info;
-        single_result={...single_result, tName, ticker, photoURL, contractAddress};
+        let { tName, ticker, contractAddress, photoURL } = product_info;
+        single_result = {
+          ...single_result,
+          tName,
+          ticker,
+          photoURL,
+          contractAddress,
+        };
         results.push(single_result);
       }
-      
       setSearchResults(results);
+      console.log(results[0].status)
     } catch (err) {
       setErr(true);
+      console.log(err);
     }
   };
 
@@ -74,12 +77,12 @@ const MyTokens2 = () => {
   const [tokenName, setTokenName] = useState("Token");
   const [tokenUid, setTokenUid] = useState(null);
 
-  const handleOpenRedeem = async (result, e) => {
+  const handleTrack = async (result, e) => {
     e.preventDefault();
 
     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
     let tempSigner = tempProvider.getSigner();
-    console.log(result)
+    console.log(result);
     let tempContract = new ethers.Contract(
       result.contractAddress,
       token_abi,
@@ -89,7 +92,7 @@ const MyTokens2 = () => {
     setContract(tempContract);
     setTokenName(result.tName);
     setTokenUid(result.uid);
-    setShowRedeem(true);
+   
   };
 
   useEffect(() => {
@@ -97,47 +100,37 @@ const MyTokens2 = () => {
     }
   }, [contract]);
 
-  const handleCloseRedeem = () => {
-    setShowRedeem(false);
-  };
+
 
   return (
     <div>
       <div className="formContainer">
         <div className="formWrapper">
           <GetBack />
-          <span className="logo"> My Tokens - Consumer</span>
+          <span className="logo"> Tokens Track - Consumer</span>
           <form>
             {loading && "Creating Token.. Please wait..."}
             {err && <span>{errorMessage}</span>}
             {searchResults.map((result, index) => (
               <div key={index}>
-                {result.tName} {result.ticker} {result.quantity}{" "}
+                {result.tName} {result.ticker} {result.quantity}{" "}{result.status}{" "}
                 <img src={result.photoURL} alt="" />
-                <button onClick={(event) => handleOpenRedeem(result, event)}>
-                  Redeem
-                </button>
+                {(() => {
+                  switch (result.status) {
+                    case 0: return <button disabled style={{backgroundColor: 'grey', color: 'white'}}>Waiting for confirmation</button>;
+                    case 1: return <button onClick={(event) => handleOpenRedeem(result, event)}>Redeem</button>;
+                    case 2: return <button disabled>Another Status</button>;
+                    default: return null;
+                  }
+                })()}
               </div>
             ))}
           </form>
         </div>
 
-        {showRedeem && (
-          <div className="transfer">
-            <div className="transfer-content">
-              <button onClick={handleCloseRedeem}>×</button>
-              <Redeems
-                contract={contract}
-                tokenUid={tokenUid}
-                updateInfo={updateInfo}
-                setUpdateInfo={setUpdateInfo}
-              />
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
 };
 
-export default MyTokens2;
+export default ConsumerTrack;

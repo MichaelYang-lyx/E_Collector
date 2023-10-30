@@ -19,6 +19,7 @@ import {
 import GetBack from "../components/GetBack";
 import { ethers } from "ethers";
 import Transfers from "../components/wallet/Transfers";
+import IssueMore from "../components/wallet/IssueMore";
 
 const MyTokens = () => {
   const token_abi = tokenData.abi;
@@ -27,6 +28,7 @@ const MyTokens = () => {
   const [err, setErr] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [showTransfer, setShowTransfer] = useState(false);
+  const [showIssueMore, setShowIssueMore] = useState(false);
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [updateInfo, setUpdateInfo] = useState(0);
@@ -76,6 +78,24 @@ const MyTokens = () => {
     setShowTransfer(true);
   };
 
+  //---------- Issue More Token --------------
+  const handleOpenIssueMore = async (result, e) => {
+    e.preventDefault();
+
+    let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+    let tempSigner = tempProvider.getSigner();
+    let tempContract = new ethers.Contract(
+      result.contractAddress,
+      token_abi,
+      tempSigner
+    );
+
+    setContract(tempContract);
+    setTokenName(result.tName);
+    setTokenUid(result.uid);
+    setShowIssueMore(true);
+  };
+
   useEffect(() => {
     if (contract != null) {
 
@@ -84,6 +104,9 @@ const MyTokens = () => {
 
   const handleCloseTransfer = () => {
     setShowTransfer(false);
+  };
+  const handleCloseIssueMore = () => {
+    setShowIssueMore(false);
   };
 
   const handleSubmit = (event) => {
@@ -109,6 +132,10 @@ const MyTokens = () => {
                 <button onClick={(event) => handleOpenTransfer(result, event)}>
                   Transfer
                 </button>
+                <span>  -- </span>
+                <button onClick={(event) => handleOpenIssueMore(result, event)}>
+                  Issue More
+                </button>
               </div>
             ))}
           </form>
@@ -119,6 +146,14 @@ const MyTokens = () => {
            <div className="transfer-content">
            <button onClick={handleCloseTransfer}>×</button>
             <Transfers contract={contract} tokenUid={tokenUid} updateInfo={updateInfo} setUpdateInfo={setUpdateInfo} />
+          </div>
+          </div>
+        )}
+        {showIssueMore && (
+           <div className="transfer">
+           <div className="transfer-content">
+           <button onClick={handleCloseIssueMore}>×</button>
+            <IssueMore contract={contract} tokenUid={tokenUid} updateInfo={updateInfo} setUpdateInfo={setUpdateInfo} />
           </div>
           </div>
         )}

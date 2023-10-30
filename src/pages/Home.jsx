@@ -16,9 +16,10 @@ const Home = () => {
       <div className="container">
       <p><Link to="/friendsPage">FriendsPage</Link></p>
       <p><Link to="/publishVoucher">PublishVoucher</Link></p>
-      <p><Link to="/transferVoucher">TransferVoucher</Link></p>
       <p><Link to="/myTokens">MyTokens</Link></p>
       <p><Link to="/myTokens2">MyTokens2</Link></p>
+      <p><Link to="/merchantTrack">MerchantTrack</Link></p>
+      <p><Link to="/consumerTrack">ConsumerTrack</Link></p>
       </div>
     </div>
   )
