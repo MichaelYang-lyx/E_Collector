@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import GitHubCorner from "./githubconer";
+import GitHubCorner from "./Githubcorner";
 import { AuthContextProvider } from "./context/AuthContext";
 import { ChatContextProvider } from "./context/ChatContext";
 
@@ -10,7 +10,7 @@ root.render(
   <AuthContextProvider>
     <ChatContextProvider>
       <React.StrictMode>
-        <GitHubCorner />
+        <GitHubCorner/>
         <App />
       </React.StrictMode>
     </ChatContextProvider>
