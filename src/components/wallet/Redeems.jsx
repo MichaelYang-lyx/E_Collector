@@ -13,13 +13,12 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-const Interactions = (props) => {
+const Redeems = (props) => {
   const [transferHash, setTransferHash] = useState(null);
   const [info, setInfo] = useState(null);
   const [hasInfo, setHasInfo] = useState(false);
 
   const databaseProcess = async (tokenUid, userID, quantity) => {
-    
     // process products database
     const docRef2 = doc(db, "products", tokenUid);
     const query2 = await query(
@@ -38,8 +37,7 @@ const Interactions = (props) => {
       seller_hold: current_seller_hold,
       buyer_hold: current_buyer_hold,
     });
-    
-    
+
     // process consumer_tokens database
     const uid = tokenUid + userID;
 
@@ -67,60 +65,47 @@ const Interactions = (props) => {
         uid: uid,
         productID: tokenUid,
         userID: userID,
-        quantity: quantity,
+        quantity: Number(quantity),
       });
-
-
     }
-    await setHasInfo(true);
-    await setInfo("Transaction finished!")
- 
+
     console.log(uid);
-    /*
-    await setDoc(doc(db, "consumer_tokens", uid), {
-      uid: uid,
-      productID: tokenUid,
-      userID: userID,
-      quantity: quantity,
-    });
-    console.log("DataBase Process Done");*/
+ 
   };
 
   const transferHandler = async (e) => {
     e.preventDefault();
     try {
+      await setHasInfo(true);
+      await setInfo("Transaction processing...");
       let transferAmount = e.target.sendAmount.value;
       let recieverEmail = e.target.recieverEmail.value;
-
-      //let txt = await props.contract.transfer(recieverAddress, transferAmount);
-      //setTransferHash(txt.hash);
-
-      //-----
-      /*
-	  const q = query(
-		collection(db, "products"),
-		where("merchant", "==", merchant)
-	  );/*
-      var ref = db.collection("products").doc("your_doc_id");
-
-      ref.update({
-        propertyToBeUpdated: "newValue",
-      });
-	  	*/
-      //get UiD
-      const userUid = 1;
-
-      const emailQuery = await query(
+      const query1 = await query(
         collection(db, "users"),
         where("email", "==", recieverEmail)
       );
-      const emailQuerySnapshot = await getDocs(emailQuery);
-      const reciverAddress = emailQuerySnapshot.docs[0].data().address;
-      await databaseProcess(props.tokenUid, reciverAddress, transferAmount);
+      const querySnapshot1 = await getDocs(query1);
+      const recieverAddress = querySnapshot1.docs[0].data().address;
+      console.log(recieverAddress);
+      let txt = await props.contract.transfer(recieverAddress, transferAmount);
 
-      console.log(reciverAddress);
+      setTransferHash(txt.hash);
+      let receipt = await txt.wait();
+      if (receipt.status === 1) {
+        const userID = querySnapshot1.docs[0].data().uid;
+        await databaseProcess(props.tokenUid, userID, transferAmount);
+        await props.setUpdateInfo(props.updateInfo + 1);
+        console.log("Transfer finished!");
+        await setInfo("Transaction finished!");
+      } else {
+        console.log("Transfer failed!");
+        await setInfo("Transaction failed!");
+      }
+
       //-----
     } catch (err) {
+      setHasInfo(true);
+      setInfo("Transaction failed!");
       console.log(err);
     }
   };
@@ -128,7 +113,7 @@ const Interactions = (props) => {
   return (
     <div className={styles.interactionsCard}>
       <form onSubmit={transferHandler}>
-        <h3> Transfer Coins </h3>
+        <h3> Redeem Tokens </h3>
         <p> Reciever Email </p>
         <input type="text" id="recieverEmail" />
 
@@ -145,4 +130,4 @@ const Interactions = (props) => {
   );
 };
 
-export default Interactions;
+export default Redeems;

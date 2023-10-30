@@ -18,19 +18,19 @@ import {
 } from "firebase/firestore";
 import GetBack from "../components/GetBack";
 import { ethers } from "ethers";
-import Interactions from "../components/wallet/Interactions";
+import Transfers from "../components/wallet/Transfers";
 
 const MyTokens = () => {
   const token_abi = tokenData.abi;
+  const { currentUser } = useContext(AuthContext);
 
   const [err, setErr] = useState(false);
-  const [connButtonText, setConnButtonText] = useState("Connect Wallet");
   const [errorMessage, setErrorMessage] = useState(null);
-  const { currentUser } = useContext(AuthContext);
   const [showTransfer, setShowTransfer] = useState(false);
   const [loading, setLoading] = useState(false);
-
   const [searchResults, setSearchResults] = useState([]);
+  const [updateInfo, setUpdateInfo] = useState(0);
+
 
   const handleSearch = async () => {
     const merchant = currentUser.uid;
@@ -53,7 +53,7 @@ const MyTokens = () => {
 
   useEffect(() => {
     handleSearch();
-  }, []);
+  }, [updateInfo]);
 
   const [contract, setContract] = useState(null);
   const [tokenName, setTokenName] = useState("Token");
@@ -97,7 +97,7 @@ const MyTokens = () => {
       <div className="formContainer">
         <div className="formWrapper">
           <GetBack />
-          <span className="logo"> My Tokens</span>
+          <span className="logo"> My Tokens - Merchant</span>
           <form>
             {loading && "Creating Token.. Please wait..."}
             {err && <span>{errorMessage}</span>}
@@ -118,7 +118,7 @@ const MyTokens = () => {
            <div className="transfer">
            <div className="transfer-content">
            <button onClick={handleCloseTransfer}>×</button>
-            <Interactions contract={contract} tokenUid={tokenUid} />
+            <Transfers contract={contract} tokenUid={tokenUid} updateInfo={updateInfo} setUpdateInfo={setUpdateInfo} />
           </div>
           </div>
         )}
