@@ -54,7 +54,6 @@ const PublishVoucher = () => {
     const tName = e.target[0].value;
     const ticker = e.target[1].value;
     const quantity = e.target[2].value;
-    const available_quantity = quantity;
     const file = e.target[3].files[0];
     let contractAddress = "";
 
@@ -94,8 +93,9 @@ const PublishVoucher = () => {
               tName,
               ticker,
               merchant,
-              quantity,
-              available_quantity,
+              seller_hold:quantity,
+              buyer_hold:0,
+              redeemed:0,
               contractAddress,
               photoURL: downloadURL,
             });

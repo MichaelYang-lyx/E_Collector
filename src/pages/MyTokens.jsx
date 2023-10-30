@@ -78,8 +78,7 @@ const MyTokens = () => {
 
   useEffect(() => {
     if (contract != null) {
-      //updateBalance();
-      //updateTokenName();
+
     }
   }, [contract]);
 
@@ -104,8 +103,8 @@ const MyTokens = () => {
             {err && <span>{errorMessage}</span>}
             {searchResults.map((result, index) => (
               <div key={index}>
-                {result.tName} {result.ticker} {result.quantity}{" "}
-                {result.available_quantity}
+                {result.tName} {result.ticker} {result.buyer_hold}{" "}
+                {result.seller_hold} {result.redeemed}
                 <img src={result.photoURL} alt="" />
                 <button onClick={(event) => handleOpenTransfer(result, event)}>
                   Transfer
@@ -119,7 +118,7 @@ const MyTokens = () => {
            <div className="transfer">
            <div className="transfer-content">
            <button onClick={handleCloseTransfer}>×</button>
-            <Interactions contract={contract} />
+            <Interactions contract={contract} tokenUid={tokenUid} />
           </div>
           </div>
         )}
