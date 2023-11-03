@@ -21,14 +21,14 @@ import NavigationIcon from "@mui/icons-material/Navigation";
 import SellerOrderCard from "./SellerOrderCard";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
-import ImageUploader from "./ImageUploader";
 import ConnectBtn from "./ConnectBtn";
 import TokenList from "./TokenList";
 import { getSellerTokens } from "./queryDatabase/QuerySellerTokens";
 import { getBuyerTokens } from "./queryDatabase/QueryBuyerTokens";
 import { getBuyerOrders } from "./queryDatabase/QueryBuyerOrders";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState,useRef  } from "react";
 import { AuthContext } from "../context/AuthContext";
+import CreateTokenForm from "./interactWithBlockchain/CreateTokenForm";
 
 
 interface TabPanelProps {
@@ -118,31 +118,29 @@ export default function Main({
   const [buyerTokens, setBuyerTokens] = useState<any[]>([]);
   const [buyerOrders, setBuyerOrders] = useState<any[]>([]);
 
+  const [updateInfo, setUpdateInfo] = useState<number>(0);
+
   const queryAll = async () => {
     const sellerTokensArrary = await getSellerTokens(userID);
     if (sellerTokensArrary !== undefined) {
       setSellerTokens(sellerTokensArrary);
     }
-    const buyerTokensArray=await getBuyerTokens(userID);
-    if (buyerTokensArray!==undefined){
+    const buyerTokensArray = await getBuyerTokens(userID);
+    if (buyerTokensArray !== undefined) {
       setBuyerTokens(buyerTokensArray);
     }
 
-    const buyerOrdersArray=await getBuyerOrders(userID);
-    if ( buyerOrdersArray!==undefined){
-      setBuyerOrders( buyerOrdersArray);
+    const buyerOrdersArray = await getBuyerOrders(userID);
+    if (buyerOrdersArray !== undefined) {
+      setBuyerOrders(buyerOrdersArray);
     }
-    console.log(buyerOrdersArray)
-
-
-
   };
-
-  
 
   useEffect(() => {
     queryAll();
-  }, []);
+  }, [updateInfo]);
+
+ 
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -175,9 +173,7 @@ export default function Main({
         ) : (
           <>
             {mode === "buyer" ? (
-              <TokenList
-                tokens={buyerTokens}
-              />
+              <TokenList tokens={buyerTokens} />
             ) : (
               <>
                 {sellerTokens.map(({ image, name, tokenQtys, id }) => (
@@ -188,46 +184,10 @@ export default function Main({
                     key={id}
                   />
                 ))}
-                <Fab
-                  color="primary"
-                  aria-label="add"
-                  sx={{ position: "fixed", bottom: 16, right: 16 }}
-                  onClick={handleAdd}
-                >
-                  <AddIcon />
-                </Fab>
-                <Dialog open={open} onClose={handleClose}>
-                  <DialogTitle>New Product</DialogTitle>
-                  <DialogContent
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 1,
-                      width: "min(calc(100vw - 64px), 345px)",
-                    }}
-                  >
-                    <TextField
-                      margin="dense"
-                      id="outlined-required"
-                      label="Name"
-                      defaultValue="Apple"
-                      fullWidth
-                    />
-                    <TextField
-                      autoFocus
-                      id="standard-number"
-                      label="Quantity"
-                      defaultValue={1}
-                      type="number"
-                      fullWidth
-                    />
-                    <ImageUploader />
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Create</Button>
-                  </DialogActions>
-                </Dialog>
+                <CreateTokenForm   
+           
+                updateInfo={updateInfo}
+                setUpdateInfo={setUpdateInfo}/>
               </>
             )}
           </>

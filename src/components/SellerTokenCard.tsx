@@ -59,7 +59,7 @@ function TokenQtys({ sellerHold, buyerHold, redeemed }: TokenQtysProps) {
             createData("Seller hold", sellerHold),
             createData("Buyer hold", buyerHold),
             createData("Redeemed", redeemed),
-            createData("Issued", sellerHold + buyerHold + redeemed),
+            createData("Issued", Number(sellerHold) + Number(buyerHold) + Number(redeemed)),
           ].map((row) => (
             <TableRow
               key={row.name}

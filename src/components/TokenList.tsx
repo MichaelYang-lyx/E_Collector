@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material";
 import TokenCard, { TokenCardProps } from "./TokenCard";
 import * as React from "react";
-import RedeemDialog from "./RedeemDialog";
+import RedeemDialog from "./interactWithBlockchain/RedeemDialog";
 
 interface TokenListItemProps {
   imageSrc: string;

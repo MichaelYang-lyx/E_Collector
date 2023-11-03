@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import { Button, Card, CardMedia, Typography } from "@mui/material";
 
-export default function ImageUploader() {
-  const [image, setImage] = useState<string | null>(null);
+interface ImageUploaderProps {
+  onImageFileChange: (file: File) => void;
+}
+
+export default function ImageUploader(props: ImageUploaderProps) {
+  const [image, setImage] = useState<any | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
+      setImageFile(file);
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        setImage(reader.result as string);
+        setImage(reader.result);
+        props.onImageFileChange(file);
       };
     }
   };

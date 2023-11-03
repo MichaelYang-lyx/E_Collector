@@ -29,7 +29,7 @@ const PublishVoucher = () => {
   const [err, setErr] = useState(false);
   const [connButtonText, setConnButtonText] = useState("Connect Wallet");
   const [errorMessage, setErrorMessage] = useState(null);
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser } :any= useContext(AuthContext);
 
   const [contract, setContract] = useState(null);
 
@@ -55,6 +55,8 @@ const PublishVoucher = () => {
     const ticker = e.target[1].value;
     const quantity = e.target[2].value;
     const file = e.target[3].files[0];
+
+    console.log(file)
     let contractAddress = "";
 
     

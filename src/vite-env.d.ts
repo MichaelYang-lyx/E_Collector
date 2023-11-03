@@ -1,6 +1,15 @@
-/// <reference types="vite/client" />
+// <reference types="vite/client" />
 
-interface Window {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+declare module '*.css' {
+  const css: { [key: string]: string };
+  export default css;
+}
+declare module '*.json';
+declare module '*.png';
+declare module 'react-markup';
+
+declare interface Window {
   ethereum: any;
 }
+

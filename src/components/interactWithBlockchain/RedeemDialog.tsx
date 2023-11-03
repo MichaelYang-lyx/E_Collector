@@ -7,7 +7,7 @@ import {
   Button,
 } from "@mui/material";
 import { useState } from "react";
-
+import React from "react";
 export default function RedeemDialog({
   open,
   onClose,
@@ -28,9 +28,18 @@ Tsim Sha Tsui, Kowloon`,
     quantity: 1,
   });
 
+  const handleRedeem = () => {
+    onClose();
+    console.log({
+      ...redeemInfo,
+      productId,
+    });
+  };
   return (
     <Dialog open={open} onClose={() => onClose()}>
-      <DialogTitle>Redeem {productName}</DialogTitle>
+      <DialogTitle>
+        Redeem {productName} {productId}
+      </DialogTitle>
       <DialogContent>
         <TextField
           margin="dense"
@@ -79,17 +88,7 @@ Tsim Sha Tsui, Kowloon`,
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
-        <Button
-          onClick={() => {
-            onClose();
-            console.log({
-              ...redeemInfo,
-              productId,
-            });
-          }}
-        >
-          Redeem
-        </Button>
+        <Button onClick={handleRedeem}>Redeem</Button>
       </DialogActions>
     </Dialog>
   );

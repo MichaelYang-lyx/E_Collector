@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { Button, Card, CardMedia, Typography } from "@mui/material";
 
-export default function ImageUploader() {
+
+interface ImageUploaderProps {
+  onImageUpload: (image: string) => void;
+}
+
+
+export default function ImageUploader({ onImageUpload }: ImageUploaderProps) {
   const [image, setImage] = useState<string | null>(null);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -11,6 +17,7 @@ export default function ImageUploader() {
       reader.readAsDataURL(file);
       reader.onload = () => {
         setImage(reader.result as string);
+        onImageUpload(image);
       };
     }
   };
