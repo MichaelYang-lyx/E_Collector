@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, FC, FormEvent } from 'react';
 
-const MyModal = () => {
-  const [showModal, setShowModal] = useState(false);
+const MyModal: FC = () => {
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleOpenTransfer = () => {
     setShowModal(true);
@@ -11,10 +11,10 @@ const MyModal = () => {
     setShowModal(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     // 在这里处理表单提交
-    handleCloseModal();
+    handleCloseTransfer();
   };
 
   return (
@@ -24,7 +24,7 @@ const MyModal = () => {
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-            <button onClick={handleCloseModal}>×</button>
+            <button onClick={handleCloseTransfer}>×</button>
             <form onSubmit={handleSubmit}>
               {/* 在这里添加表单字段 */}
               <button type="submit">Submit</button>

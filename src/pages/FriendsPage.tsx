@@ -5,10 +5,6 @@ import GetBack from '../components/GetBack'
 
 
   
-
-
-
-
 const FriendsPage = () => {
 
   return (

@@ -17,29 +17,50 @@ import GetBack from "../components/GetBack";
 import { ethers } from "ethers";
 import Redeems from "../components/wallet/Redeems";
 
-const ConsumerTrack = () => {
-  const token_abi = tokenData.abi;
-  const { currentUser } = useContext(AuthContext);
+interface Product {
+  uid: string;
+  tName: string;
+  ticker: string;
+  contractAddress: string;
+  photoURL: string;
+}
+
+interface SearchResult extends Product {
+  consumerID: string;
+  status: number;
+  quantity: number;
+}
 
 
-  const [err, setErr] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
-  const [updateInfo, setUpdateInfo] = useState(0);
+declare global {
+  interface Window {
+    ethereum: any; 
+  }
+}
 
-  const getProducts = async (productID) => {
+const ConsumerTrack: React.FC = () => {
+  const token_abi: any = tokenData.abi;
+  const { currentUser }:any = useContext(AuthContext);
+
+  const [err, setErr] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [updateInfo, setUpdateInfo] = useState<number>(0);
+
+  const getProducts = async (productID: string): Promise<Product> => {
     const q = query(collection(db, "products"), where("uid", "==", productID));
     try {
       const qSnapshot = await getDocs(q);
-      const result = qSnapshot.docs[0].data();
+      const result = qSnapshot.docs[0].data() as Product;
       return result;
     } catch (err) {
       setErr(true);
+      throw err;
     }
   };
 
-  const handleSearch = async () => {
+  const handleSearch = async (): Promise<void> => {
     const q = query(
       collection(db, "tracks"),
       where("consumerID", "==", currentUser.uid)
@@ -47,9 +68,9 @@ const ConsumerTrack = () => {
 
     try {
       const querySnapshot = await getDocs(q);
-      const results = [];
+      const results: SearchResult[] = [];
       for (const doc of querySnapshot.docs) {
-        let single_result = doc.data();
+        let single_result = doc.data() as SearchResult;
         const product_info = await getProducts(doc.data().productID);
         let { tName, ticker, contractAddress, photoURL } = product_info;
         single_result = {
@@ -62,7 +83,7 @@ const ConsumerTrack = () => {
         results.push(single_result);
       }
       setSearchResults(results);
-      console.log(results[0].status)
+      console.log(results[0].status);
     } catch (err) {
       setErr(true);
       console.log(err);
@@ -73,11 +94,11 @@ const ConsumerTrack = () => {
     handleSearch();
   }, [updateInfo]);
 
-  const [contract, setContract] = useState(null);
-  const [tokenName, setTokenName] = useState("Token");
-  const [tokenUid, setTokenUid] = useState(null);
+  const [contract, setContract] = useState<any>(null);
+  const [tokenName, setTokenName] = useState<string>("Token");
+  const [tokenUid, setTokenUid] = useState<string | null>(null);
 
-  const handleTrack = async (result, e) => {
+  const handleTrack = async (result: SearchResult, e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
@@ -92,15 +113,13 @@ const ConsumerTrack = () => {
     setContract(tempContract);
     setTokenName(result.tName);
     setTokenUid(result.uid);
-   
   };
 
   useEffect(() => {
     if (contract != null) {
+      // Do something
     }
   }, [contract]);
-
-
 
   return (
     <div>
@@ -113,21 +132,36 @@ const ConsumerTrack = () => {
             {err && <span>{errorMessage}</span>}
             {searchResults.map((result, index) => (
               <div key={index}>
-                {result.tName} {result.ticker} {result.quantity}{" "}{result.status}{" "}
+                {result.tName} {result.ticker} {result.quantity} {result.status}{" "}
                 <img src={result.photoURL} alt="" />
                 {(() => {
                   switch (result.status) {
-                    case 0: return <button disabled style={{backgroundColor: 'grey', color: 'white'}}>Waiting for confirmation</button>;
-                    case 1: return <button onClick={(event) => handleOpenRedeem(result, event)}>Redeem</button>;
-                    case 2: return <button disabled>Another Status</button>;
-                    default: return null;
+                    case 0:
+                      return (
+                        <button
+                          disabled
+                          style={{ backgroundColor: "grey", color: "white" }}
+                        >
+                          Waiting for confirmation
+                        </button>
+                      );
+                    case 1:
+                      return (
+                        <button
+                        >
+                          Redeem
+                        </button>
+                      );
+                    case 2:
+                      return <button disabled>Another Status</button>;
+                    default:
+                      return null;
                   }
                 })()}
               </div>
             ))}
           </form>
         </div>
-
       </div>
     </div>
   );

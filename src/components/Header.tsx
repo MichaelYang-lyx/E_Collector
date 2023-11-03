@@ -7,7 +7,8 @@ import { AccountCircle, Logout } from "@mui/icons-material";
 import { ButtonGroup, Chip, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import ConnectBtn from "./ConnectBtn";
-
+import Navbar from "./chatComponents/Navbar";
+import React from "react";
 export default function Header({
   connected,
   onConnect,
@@ -39,6 +40,7 @@ export default function Header({
             E-Collector
             {mode === "seller" && " · Seller"}
           </Typography>
+          <Navbar/>
           {connected ? (
             <div>
               <IconButton
@@ -50,6 +52,7 @@ export default function Header({
                 color="inherit"
               >
                 <AccountCircle />
+              
               </IconButton>
               <Menu
                 id="menu-appbar"

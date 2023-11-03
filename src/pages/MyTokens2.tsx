@@ -1,11 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-
-import tokenfactoryData from "../components/wallet/Contracts/TokenFactory.json";
-
-import "../style.scss";
-
+import { FC } from "react";
 import { AuthContext } from "../context/AuthContext";
-import tokenData from "../components/wallet/Contracts/Token.json";
 import { db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {
@@ -19,31 +14,46 @@ import {
 import GetBack from "../components/GetBack";
 import { ethers } from "ethers";
 import Redeems from "../components/wallet/Redeems";
+import tokenData from '../components/wallet/Contracts/Token.json';
+interface Product {
+  tName: string;
+  ticker: string;
+  contractAddress: string;
+  photoURL: string;
+}
 
-const MyTokens2 = () => {
+interface SearchResult {
+  uid: string;
+  productID: string;
+  userID: string;
+  quantity: number;
+}
+
+interface MyTokens2Props {}
+
+const MyTokens2: FC<MyTokens2Props> = () => {
   const token_abi = tokenData.abi;
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser }:any = useContext(AuthContext);
 
-  const [err, setErr] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [showRedeem, setShowRedeem] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
-  const [updateInfo, setUpdateInfo] = useState(0);
+  const [err, setErr] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showRedeem, setShowRedeem] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [updateInfo, setUpdateInfo] = useState<number>(0);
 
-  const getProducts = async (productID) => {
+  const getProducts = async (productID: string): Promise<Product> => {
     const q = query(collection(db, "products"), where("uid", "==", productID));
     try {
-      
       const qSnapshot = await getDocs(q);
-      const result = qSnapshot.docs[0].data();
+      const result = qSnapshot.docs[0].data() as Product;
       return result;
     } catch (err) {
       setErr(true);
     }
   };
 
-  const handleSearch = async () => {
+  const handleSearch = async (): Promise<void> => {
     const q = query(
       collection(db, "consumer_tokens"),
       where("userID", "==", currentUser.uid)
@@ -51,15 +61,21 @@ const MyTokens2 = () => {
 
     try {
       const querySnapshot = await getDocs(q);
-      const results = [];
+      const results: SearchResult[] = [];
       for (const doc of querySnapshot.docs) {
-        let single_result=doc.data();
+        let single_result = doc.data() as SearchResult;
         const product_info = await getProducts(doc.data().productID);
-        let{tName, ticker, contractAddress, photoURL}=product_info;
-        single_result={...single_result, tName, ticker, photoURL, contractAddress};
+        let { tName, ticker, contractAddress, photoURL } = product_info;
+        single_result = {
+          ...single_result,
+          tName,
+          ticker,
+          photoURL,
+          contractAddress,
+        };
         results.push(single_result);
       }
-      
+
       setSearchResults(results);
     } catch (err) {
       setErr(true);
@@ -70,16 +86,16 @@ const MyTokens2 = () => {
     handleSearch();
   }, [updateInfo]);
 
-  const [contract, setContract] = useState(null);
-  const [tokenName, setTokenName] = useState("Token");
-  const [tokenUid, setTokenUid] = useState(null);
+  const [contract, setContract] = useState<ethers.Contract | null>(null);
+  const [tokenName, setTokenName] = useState<string>("Token");
+  const [tokenUid, setTokenUid] = useState<string | null>(null);
 
-  const handleOpenRedeem = async (result, e) => {
+  const handleOpenRedeem = async (result: SearchResult, e: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
     e.preventDefault();
 
     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
     let tempSigner = tempProvider.getSigner();
-    console.log(result)
+    console.log(result);
     let tempContract = new ethers.Contract(
       result.contractAddress,
       token_abi,
@@ -97,7 +113,7 @@ const MyTokens2 = () => {
     }
   }, [contract]);
 
-  const handleCloseRedeem = () => {
+  const handleCloseRedeem = (): void => {
     setShowRedeem(false);
   };
 

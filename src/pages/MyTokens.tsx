@@ -1,12 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-
-import tokenfactoryData from "../components/wallet/Contracts/TokenFactory.json";
-
-import "../style.scss";
-
-import { AuthContext } from "../context/AuthContext";
-import tokenData from "../components/wallet/Contracts/Token.json";
-import { db, storage } from "../firebase";
+import { ethers } from "ethers";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {
   doc,
@@ -16,36 +9,47 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
+import { AuthContext } from "../context/AuthContext";
+import { db, storage } from "../firebase";
 import GetBack from "../components/GetBack";
-import { ethers } from "ethers";
 import Transfers from "../components/wallet/Transfers";
 import IssueMore from "../components/wallet/IssueMore";
+import tokenData from "../components/wallet/Contracts/Token.json";
+import tokenfactoryData from "../components/wallet/Contracts/TokenFactory.json";
+import "../style.scss";
 
-const MyTokens = () => {
-  const token_abi = tokenData.abi;
-  const { currentUser } = useContext(AuthContext);
+interface Token {
+  tName: string;
+  ticker: string;
+  buyer_hold: number;
+  seller_hold: number;
+  redeemed: boolean;
+  photoURL: string;
+  contractAddress: string;
+  uid: string;
+}
 
-  const [err, setErr] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [showTransfer, setShowTransfer] = useState(false);
-  const [showIssueMore, setShowIssueMore] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
-  const [updateInfo, setUpdateInfo] = useState(0);
+const MyTokens: React.FC = () => {
+  const token_abi: any = tokenData.abi;
+  const { currentUser }: any = useContext(AuthContext);
 
+  const [err, setErr] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showTransfer, setShowTransfer] = useState<boolean>(false);
+  const [showIssueMore, setShowIssueMore] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [searchResults, setSearchResults] = useState<Token[]>([]);
+  const [updateInfo, setUpdateInfo] = useState<number>(0);
 
-  const handleSearch = async () => {
-    const merchant = currentUser.uid;
-    const q = query(
-      collection(db, "products"),
-      where("merchant", "==", merchant)
-    );
+  const handleSearch = async (): Promise<void> => {
+    const merchant: string = currentUser.uid;
+    const q = query(collection(db, "products"), where("merchant", "==", merchant));
 
     try {
       const querySnapshot = await getDocs(q);
-      const results = [];
+      const results: Token[] = [];
       querySnapshot.forEach((doc) => {
-        results.push(doc.data());
+        results.push(doc.data() as Token);
       });
       setSearchResults(results);
     } catch (err) {
@@ -57,20 +61,16 @@ const MyTokens = () => {
     handleSearch();
   }, [updateInfo]);
 
-  const [contract, setContract] = useState(null);
-  const [tokenName, setTokenName] = useState("Token");
-  const [tokenUid, setTokenUid] = useState(null);
+  const [contract, setContract] = useState<any>(null);
+  const [tokenName, setTokenName] = useState<string>("Token");
+  const [tokenUid, setTokenUid] = useState<string | null>(null);
 
-  const handleOpenTransfer = async (result, e) => {
+  const handleOpenTransfer = async (result: Token, e: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
     e.preventDefault();
 
     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
     let tempSigner = tempProvider.getSigner();
-    let tempContract = new ethers.Contract(
-      result.contractAddress,
-      token_abi,
-      tempSigner
-    );
+    let tempContract = new ethers.Contract(result.contractAddress, token_abi, tempSigner);
 
     setContract(tempContract);
     setTokenName(result.tName);
@@ -78,17 +78,12 @@ const MyTokens = () => {
     setShowTransfer(true);
   };
 
-  //---------- Issue More Token --------------
-  const handleOpenIssueMore = async (result, e) => {
+  const handleOpenIssueMore = async (result: Token, e: React.MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> => {
     e.preventDefault();
 
     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
     let tempSigner = tempProvider.getSigner();
-    let tempContract = new ethers.Contract(
-      result.contractAddress,
-      token_abi,
-      tempSigner
-    );
+    let tempContract = new ethers.Contract(result.contractAddress, token_abi, tempSigner);
 
     setContract(tempContract);
     setTokenName(result.tName);
@@ -98,21 +93,22 @@ const MyTokens = () => {
 
   useEffect(() => {
     if (contract != null) {
-
+      // Do something
     }
   }, [contract]);
 
-  const handleCloseTransfer = () => {
+  const handleCloseTransfer = (): void => {
     setShowTransfer(false);
   };
-  const handleCloseIssueMore = () => {
+
+  const handleCloseIssueMore = (): void => {
     setShowIssueMore(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    // 在这里处理表单提交
-    handleCloseModal();
+    // Handle form submission here
+    //handleCloseModal();
   };
 
   return (
@@ -121,40 +117,45 @@ const MyTokens = () => {
         <div className="formWrapper">
           <GetBack />
           <span className="logo"> My Tokens - Merchant</span>
-          <form>
+          <form onSubmit={handleSubmit}>
             {loading && "Creating Token.. Please wait..."}
             {err && <span>{errorMessage}</span>}
             {searchResults.map((result, index) => (
               <div key={index}>
-                {result.tName} {result.ticker} {result.buyer_hold}{" "}
-                {result.seller_hold} {result.redeemed}
+                {result.tName} {result.ticker} {result.buyer_hold} {result.seller_hold} {result.redeemed}
                 <img src={result.photoURL} alt="" />
-                <button onClick={(event) => handleOpenTransfer(result, event)}>
-                  Transfer
-                </button>
-                <span>  -- </span>
-                <button onClick={(event) => handleOpenIssueMore(result, event)}>
-                  Issue More
-                </button>
+                <button onClick={(event) => handleOpenTransfer(result, event)}>Transfer</button>
+                <span> -- </span>
+                <button onClick={(event) => handleOpenIssueMore(result, event)}>Issue More</button>
               </div>
             ))}
           </form>
         </div>
-     
+
         {showTransfer && (
-           <div className="transfer">
-           <div className="transfer-content">
-           <button onClick={handleCloseTransfer}>×</button>
-            <Transfers contract={contract} tokenUid={tokenUid} updateInfo={updateInfo} setUpdateInfo={setUpdateInfo} />
-          </div>
+          <div className="transfer">
+            <div className="transfer-content">
+              <button onClick={handleCloseTransfer}>×</button>
+              <Transfers
+                contract={contract}
+                tokenUid={tokenUid}
+                updateInfo={updateInfo}
+                setUpdateInfo={setUpdateInfo}
+              />
+            </div>
           </div>
         )}
         {showIssueMore && (
-           <div className="transfer">
-           <div className="transfer-content">
-           <button onClick={handleCloseIssueMore}>×</button>
-            <IssueMore contract={contract} tokenUid={tokenUid} updateInfo={updateInfo} setUpdateInfo={setUpdateInfo} />
-          </div>
+          <div className="transfer">
+            <div className="transfer-content">
+              <button onClick={handleCloseIssueMore}>×</button>
+              <IssueMore
+                contract={contract}
+                tokenUid={tokenUid}
+                updateInfo={updateInfo}
+                setUpdateInfo={setUpdateInfo}
+              />
+            </div>
           </div>
         )}
       </div>

@@ -5,11 +5,11 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import styles from "../components/wallet/Wallet.module.css";
 import { auth, db } from "../firebase";
 
-const Login2 = () => {
-  const [err, setErr] = useState(false);
-  const [connButtonText, setConnButtonText] = useState("Connect Wallet");
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [defaultAccount, setDefaultAccount] = useState(null);
+const Login2: React.FC = () => {
+  const [err, setErr] = useState<boolean>(false);
+  const [connButtonText, setConnButtonText] = useState<string>("Connect Wallet");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [defaultAccount, setDefaultAccount] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -17,11 +17,11 @@ const Login2 = () => {
     if (window.ethereum && window.ethereum.isMetaMask) {
       window.ethereum
         .request({ method: "eth_requestAccounts" })
-        .then((result) => {
+        .then((result: string[]) => {
           accountChangedHandler(result[0]);
           setConnButtonText("Wallet Connected");
         })
-        .catch((error) => {
+        .catch((error: any) => {
           setErrorMessage(error.message);
         });
     } else {
@@ -30,14 +30,15 @@ const Login2 = () => {
     }
   };
 
-  const accountChangedHandler = (newAddress) => {
+  const accountChangedHandler = (newAddress: string) => {
     setDefaultAccount(newAddress);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const address = defaultAccount;
-    const password = e.target[0].value;
+    //const password = e.currentTarget[0].value;
+    const password = (e.currentTarget[0] as HTMLInputElement).value;
 
     try {
       if (!address) {
