@@ -9,7 +9,7 @@ declare module '*.json';
 declare module '*.png';
 declare module 'react-markup';
 
-declare interface Window {
+interface Window {
   ethereum: any;
 }
 

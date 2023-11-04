@@ -9,12 +9,18 @@ interface TokenListItemProps {
   qtyLeft: number;
   id: string;
 }
+interface TokenListPropsWithInfo {
+  tokens: TokenListItemProps[];
+  updateInfo: number;
+  setUpdateInfo: (value: number) => void;
+}
 
 export default function TokenList({
   tokens,
-}: {
-  tokens: TokenListItemProps[];
-}) {
+  updateInfo,
+  setUpdateInfo,
+}: TokenListPropsWithInfo
+) {
   const [open, setOpen] = React.useState(false);
   const [productToRedeem, setProductToRedeem] =
     React.useState<null | TokenListItemProps>(null);
@@ -45,6 +51,8 @@ export default function TokenList({
         onClose={handleClose}
         productId={productToRedeem?.id}
         productName={productToRedeem?.name}
+        updateInfo={updateInfo}
+        setUpdateInfo={setUpdateInfo}
       />
     </>
   );

@@ -99,13 +99,15 @@ const CreateTokenForm: React.FC<CreateTokenFormProps> = (props) => {
                 photoURL: downloadURL,
               });
               console.log("Create Token in firebase");
+              await props.setUpdateInfo(props.updateInfo + 1);
+              console.log('now Update Info',props.updateInfo)
             } catch (err) {
               console.log(err);
             }
           });
         });
-        await props.setUpdateInfo(props.updateInfo + 1);
-        console.log('now Update Info',props.updateInfo)
+        
+       
       } catch (err) {
         console.error(err);
       }

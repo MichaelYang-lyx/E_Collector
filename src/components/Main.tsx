@@ -138,6 +138,7 @@ export default function Main({
 
   useEffect(() => {
     queryAll();
+    console.log('update')
   }, [updateInfo]);
 
  
@@ -173,7 +174,9 @@ export default function Main({
         ) : (
           <>
             {mode === "buyer" ? (
-              <TokenList tokens={buyerTokens} />
+              <TokenList tokens={buyerTokens}
+                updateInfo={updateInfo}
+                setUpdateInfo={setUpdateInfo} />
             ) : (
               <>
                 {sellerTokens.map(({ image, name, tokenQtys, id }) => (
@@ -185,7 +188,6 @@ export default function Main({
                   />
                 ))}
                 <CreateTokenForm   
-           
                 updateInfo={updateInfo}
                 setUpdateInfo={setUpdateInfo}/>
               </>
