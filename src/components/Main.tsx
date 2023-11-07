@@ -17,6 +17,7 @@ import { getBuyerOrders } from "./queryDatabase/QueryBuyerOrders";
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import CreateTokenForm from "./interactWithBlockchain/CreateTokenForm";
+import FriendsPage from "./FriendsPage";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -147,6 +148,7 @@ export default function Main({
             {...a11yProps(0)}
           />
           <Tab label="Orders" {...a11yProps(1)} />
+          <Tab label="chat" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -225,6 +227,9 @@ export default function Main({
             )}
           </>
         )}
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+      <FriendsPage/>
       </CustomTabPanel>
     </Box>
   );

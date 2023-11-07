@@ -9,6 +9,9 @@ import { useState } from "react";
 import ConnectBtn from "./ConnectBtn";
 import Navbar from "./chatComponents/Navbar";
 import React from "react";
+import { signOut } from "firebase/auth";
+import { auth } from '../firebase'
+
 export default function Header({
   connected,
   onConnect,
@@ -40,7 +43,9 @@ export default function Header({
             E-Collector
             {mode === "seller" && " · Seller"}
           </Typography>
+          <button onClick={()=>signOut(auth)}>logout</button>
           <Navbar/>
+          
           {connected ? (
             <div>
               <IconButton

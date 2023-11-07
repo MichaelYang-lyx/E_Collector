@@ -62,6 +62,13 @@ export default function RedeemDialog({
       );
       const querySnapshot1 = await getDocs(query1);
       const original_quantity1 = Number(querySnapshot1.docs[0].data().quantity);
+      if (original_quantity1 < Number(quantity)) {
+        setHasInfo(true)
+        setInfo("Insufficient quantity")
+
+        throw new Error("Insufficient quantity");
+      }
+    
       const current_quantity1 = original_quantity1 - Number(quantity);
       const productID = querySnapshot1.docs[0].data().productID;
       const merchantID = querySnapshot1.docs[0].data().merchantID;
@@ -88,20 +95,6 @@ export default function RedeemDialog({
  
   };
   
-   /*
-  open: boolean;
-  onClose: () => void;
-  productId: string | undefined;
-  productName: string | undefined;
-  updateInfo:number;
-  setUpdateInfo:(value: number) => void;
-  const redeemInfo: {
-    name: string;
-    phoneNumber: string;
-    address: string;
-    quantity: number;
-
-*/
 
 
   const handleRedeem = async() => {
@@ -179,6 +172,7 @@ export default function RedeemDialog({
           type="number"
           fullWidth
         />
+         <div>{hasInfo && <span>{info}</span>}</div>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
