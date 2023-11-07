@@ -18,6 +18,7 @@ interface SellerTokenCardProps {
   tokenQtys: TokenQtysProps;
   id: string;
   onClickIssue: () => void;
+  onClickSend: () => void;
 }
 
 export function SellerTokenList({
@@ -25,17 +26,18 @@ export function SellerTokenList({
 }: {
   sellerTokens: SellerTokenCardProps[];
 }) {
-  const [open, setOpen] = React.useState(false);
-  const [productToIssue, setProductToIssue] =
+  const [issueOpen, setIssueOpen] = React.useState(false);
+  const [sendOpen, setSendOpen] = React.useState(false);
+  const [productToAct, setProductToAct] =
     React.useState<null | SellerTokenCardProps>(null);
 
-  const handleClickIssue = (productToIssue: SellerTokenCardProps) => {
-    setOpen(true);
-    setProductToIssue(productToIssue);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const handleClickBtn = (
+    btnType: "issue" | "send",
+    productToIssue: SellerTokenCardProps
+  ) => {
+    if (btnType === "issue") setIssueOpen(true);
+    else setSendOpen(true);
+    setProductToAct(productToIssue);
   };
 
   return (
@@ -48,15 +50,22 @@ export function SellerTokenList({
             tokenQtys={token.tokenQtys}
             id={token.id}
             key={token.id}
-            onClickIssue={() => handleClickIssue(token)}
+            onClickIssue={() => handleClickBtn("issue", token)}
+            onClickSend={() => handleClickBtn("send", token)}
           />
         ))}
       </Stack>
       <IssueDialog
-        open={open}
-        onClose={handleClose}
-        productId={productToIssue?.id}
-        productName={productToIssue?.name}
+        open={issueOpen}
+        onClose={() => setIssueOpen(false)}
+        productId={productToAct?.id}
+        productName={productToAct?.name}
+      />
+      <SendDialog
+        open={sendOpen}
+        onClose={() => setSendOpen(false)}
+        productId={productToAct?.id}
+        productName={productToAct?.name}
       />
     </>
   );
@@ -95,12 +104,55 @@ function IssueDialog({ open, onClose, productId, productName }) {
   );
 }
 
+function SendDialog({ open, onClose, productId, productName }) {
+  const [quantity, setQuantity] = useState(1);
+  const [recipientEmail, setRecipientEmail] = useState("a@a.com");
+
+  const handleSend = () => {
+    onClose();
+    console.log({ productId, quantity, recipientEmail });
+  };
+
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Send {productName}</DialogTitle>
+      <DialogContent>
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label="Quantity"
+          type="number"
+          fullWidth
+          value={quantity}
+          onChange={(e) => setQuantity(parseInt(e.target.value))}
+        />
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label="Recipient Email"
+          type="email"
+          fullWidth
+          value={recipientEmail}
+          onChange={(e) => setRecipientEmail(e.target.value)}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleSend}>Send</Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
 export default function SellerTokenCard({
   image,
   name,
   tokenQtys,
   id,
   onClickIssue,
+  onClickSend,
 }: SellerTokenCardProps) {
   return (
     <Card sx={{ maxWidth: 345, width: "100%" }}>
@@ -115,7 +167,9 @@ export default function SellerTokenCard({
         <Button size="small" onClick={onClickIssue}>
           Issue
         </Button>
-        <Button size="small">Send</Button>
+        <Button size="small" onClick={onClickSend}>
+          Send
+        </Button>
       </CardActions>
     </Card>
   );
