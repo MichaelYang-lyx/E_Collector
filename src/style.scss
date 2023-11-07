@@ -132,7 +132,7 @@
   }
 }
 
-.friendsPage {
+.friendsPage{
   background-color: #ffffff;
   height: 100vh;
   display: flex;
@@ -140,7 +140,7 @@
   justify-content: center;
 
   .container {
-    border: 3px solid rgb(0, 0, 0);
+    border: 1px solid rgb(27, 10, 56);
     border-radius: 10px;
     width: 100%;
     height: 80%;
@@ -152,17 +152,17 @@
 
     .sidebar {
       flex: 1;
-      background-color: #8CA4F1;
+      background-color: #3e3c61;
       position: relative;
 
       .navbar {
         display: flex;
         align-items: center;
-        background-color: #1876D1;
+        background-color: #2f2d52;
         height: 50px;
         padding: 10px;
         justify-content: space-between;
-        color: #ffffff;
+        color: #ddddf7;
 
         .logo {
           font-weight: bold;
@@ -197,7 +197,7 @@
         }
       }
       .search {
-        border-bottom: 1px solid rgb(211, 206, 206);
+        border-bottom: 1px solid gray;
 
         .searchForm {
           padding: 10px;
@@ -209,7 +209,7 @@
             outline: none;
 
             &::placeholder {
-              color: rgb(225, 219, 219);
+              color: lightgray;
             }
           }
         }
@@ -241,7 +241,7 @@
           }
           p {
             font-size: 14px;
-            color: rgb(255, 250, 250);
+            color: lightgray;
           }
         }
       }
@@ -251,12 +251,12 @@
 
       .chatInfo {
         height: 50px;
-        background-color:#8CA4F1;
+        background-color: #5d5b8d;
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 10px;
-        color: rgb(248, 246, 246);
+        color: lightgray;
       }
 
       .chatIcons {
@@ -270,7 +270,7 @@
       }
 
       .messages {
-        background-color: #eaeaed;
+        background-color: #ddddf7;
         padding: 10px;
         height: calc(100% - 160px);
         overflow: scroll;
