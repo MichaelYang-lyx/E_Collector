@@ -16,6 +16,7 @@ export const getSellerTokens = async (userID) => {
         buyerHold: item.buyer_hold,
         redeemed: item.redeemed,
       },
+      tokenContract:item.contractAddress,
       id: item.uid,
     }));
     return productsArray

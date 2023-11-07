@@ -22,7 +22,7 @@ const getTokens = async (productID: string) => {
 };
 
 export const getBuyerOrders = async (userID) => {
-  const q = query(collection(db, "tracks"), where("merchantID", "==", userID));
+  const q = query(collection(db, "tracks"), where("consumerID", "==", userID));
 
   const querySnapshot = await getDocs(q);
   const results: any[] = [];

@@ -1,10 +1,15 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { IssueDialog } from "./interactWithBlockchain/IssueDialog";
+import { SendDialog } from "./interactWithBlockchain/SendDialog";
+import tokenData from "./wallet/Contracts/Token.json";
+import { AuthContext } from "../context/AuthContext";
+import { ethers } from "ethers";
 
 interface TokenQtysProps {
   sellerHold: number;
@@ -17,15 +22,23 @@ interface SellerTokenCardProps {
   name: string;
   tokenQtys: TokenQtysProps;
   id: string;
+  tokenContract: string;
   onClickIssue: () => void;
   onClickSend: () => void;
+  
 }
 
 export function SellerTokenList({
   sellerTokens,
+  updateInfo,
+  setUpdateInfo
 }: {
   sellerTokens: SellerTokenCardProps[];
+  updateInfo:number,
+  setUpdateInfo:(updateInfo: number)=>void;
 }) {
+
+
   const [issueOpen, setIssueOpen] = React.useState(false);
   const [sendOpen, setSendOpen] = React.useState(false);
   const [productToAct, setProductToAct] =
@@ -35,9 +48,18 @@ export function SellerTokenList({
     btnType: "issue" | "send",
     productToIssue: SellerTokenCardProps
   ) => {
+    /*
+    let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+    let tempSigner = tempProvider.getSigner();
+    let tempContract = new ethers.Contract(result.contractAddress, token_abi, tempSigner);
+
+    setContract(tempContract);
+    */
+
     if (btnType === "issue") setIssueOpen(true);
     else setSendOpen(true);
     setProductToAct(productToIssue);
+    console.log(sellerTokens);
   };
 
   return (
@@ -50,6 +72,7 @@ export function SellerTokenList({
             tokenQtys={token.tokenQtys}
             id={token.id}
             key={token.id}
+            tokenContract={token.tokenContract}
             onClickIssue={() => handleClickBtn("issue", token)}
             onClickSend={() => handleClickBtn("send", token)}
           />
@@ -60,50 +83,24 @@ export function SellerTokenList({
         onClose={() => setIssueOpen(false)}
         productId={productToAct?.id}
         productName={productToAct?.name}
+        tokenContract={productToAct?.tokenContract}
+        updateInfo={updateInfo}
+        setUpdateInfo={setUpdateInfo}
       />
       <SendDialog
         open={sendOpen}
         onClose={() => setSendOpen(false)}
         productId={productToAct?.id}
         productName={productToAct?.name}
+        tokenContract={productToAct?.tokenContract}
+        updateInfo={updateInfo}
+        setUpdateInfo={setUpdateInfo}
       />
     </>
   );
 }
 
-function IssueDialog({ open, onClose, productId, productName }) {
-  const [quantity, setQuantity] = useState(1);
-
-  const handleIssue = () => {
-    onClose();
-    console.log({ productId, quantity });
-  };
-
-  return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Issue {productName}</DialogTitle>
-      <DialogContent>
-        <div>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Quantity"
-            type="number"
-            fullWidth
-            value={quantity}
-            onChange={(e) => setQuantity(parseInt(e.target.value))}
-          />
-        </div>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleIssue}>Issue</Button>
-      </DialogActions>
-    </Dialog>
-  );
-}
-
+/*
 function SendDialog({ open, onClose, productId, productName }) {
   const [quantity, setQuantity] = useState(1);
   const [recipientEmail, setRecipientEmail] = useState("a@a.com");
@@ -144,7 +141,7 @@ function SendDialog({ open, onClose, productId, productName }) {
       </DialogActions>
     </Dialog>
   );
-}
+}*/
 
 export default function SellerTokenCard({
   image,

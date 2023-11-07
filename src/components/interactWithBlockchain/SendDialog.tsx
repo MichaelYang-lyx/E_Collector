@@ -1,6 +1,13 @@
-import { React,  useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import { AuthContext } from "../../context/AuthContext";
+import tokenData from "../wallet/Contracts/Token.json";
 import { ethers } from "ethers";
-import styles from "./Wallet.module.css";
 import { db } from "../../firebase";
 import {
   doc,
@@ -13,10 +20,21 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-const Transfers = (props) => {
-  const [transferHash, setTransferHash] = useState(null);
-  const [info, setInfo] = useState(null);
-  const [hasInfo, setHasInfo] = useState(false);
+export function SendDialog({
+  open,
+  onClose,
+  productId,
+  productName,
+  tokenContract,
+  updateInfo,
+  setUpdateInfo,
+}) {
+  const [quantity, setQuantity] = useState(1);
+  const [recipientEmail, setRecipientEmail] = useState("");
+
+  const [transferHash, setTransferHash] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
+  const [hasInfo, setHasInfo] = useState<boolean | null>(false);
 
   const databaseProcess = async (tokenUid, userID, quantity) => {
     // process products database
@@ -25,7 +43,7 @@ const Transfers = (props) => {
       collection(db, "products"),
       where("uid", "==", tokenUid)
     );
-    
+
     const querySnapshot2 = await getDocs(query2);
     const seller_hold = Number(querySnapshot2.docs[0].data().seller_hold);
     const current_seller_hold = seller_hold - Number(quantity);
@@ -62,46 +80,53 @@ const Transfers = (props) => {
         uid: uid,
         quantity: current_quantity1,
       });
-
     } else {
       //如果沒有就新增
-      
+
       console.log("Document does not exist!");
       await setDoc(doc(db, "consumer_tokens", uid), {
         uid: uid,
         productID: tokenUid,
         userID: userID,
         quantity: Number(quantity),
-        merchantID:merchantID,
+        merchantID: merchantID,
       });
     }
 
     console.log(uid);
- 
   };
 
-  const transferHandler = async (e) => {
-    e.preventDefault();
+  const handleSend = async () => {
+    onClose();
+    console.log({ productId, quantity, recipientEmail });
+    const token_abi: any = tokenData.abi;
+    let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+    let tempSigner = tempProvider.getSigner();
+    let tempContract = new ethers.Contract(
+      tokenContract,
+      token_abi,
+      tempSigner
+    );
+
     try {
       await setHasInfo(true);
       await setInfo("Transaction processing...");
-      let transferAmount = e.target.sendAmount.value;
-      let recieverEmail = e.target.recieverEmail.value;
+
       const query1 = await query(
         collection(db, "users"),
-        where("email", "==", recieverEmail)
+        where("email", "==", recipientEmail)
       );
       const querySnapshot1 = await getDocs(query1);
       const recieverAddress = querySnapshot1.docs[0].data().address;
       console.log(recieverAddress);
-      let txt = await props.contract.transfer(recieverAddress, transferAmount);
+      let txt = await tempContract.transfer(recieverAddress, quantity);
 
       setTransferHash(txt.hash);
       let receipt = await txt.wait();
       if (receipt.status === 1) {
         const userID = querySnapshot1.docs[0].data().uid;
-        await databaseProcess(props.tokenUid, userID, transferAmount);
-        await props.setUpdateInfo(props.updateInfo + 1);
+        await databaseProcess(productId, userID, quantity);
+        await setUpdateInfo(updateInfo + 1);
         console.log("Transfer finished!");
         await setInfo("Transaction finished!");
       } else {
@@ -118,23 +143,34 @@ const Transfers = (props) => {
   };
 
   return (
-    <div className={styles.interactionsCard}>
-      <form onSubmit={transferHandler}>
-        <h3> Transfer Coins </h3>
-        <p> Reciever Email </p>
-        <input type="text" id="recieverEmail" />
-
-        <p> Send Amount </p>
-        <input type="number" id="sendAmount" min="0" step="1" />
-
-        <button type="submit" className={styles.button6}>
-          Send
-        </button>
-        <div>{transferHash}</div>
-        <div>{hasInfo && <span>{info}</span>}</div>
-      </form>
-    </div>
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Send {productName}</DialogTitle>
+      <DialogContent>
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label="Quantity"
+          type="number"
+          fullWidth
+          value={quantity}
+          onChange={(e) => setQuantity(parseInt(e.target.value))}
+        />
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label="Recipient Email"
+          type="email"
+          fullWidth
+          value={recipientEmail}
+          onChange={(e) => setRecipientEmail(e.target.value)}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleSend}>Send</Button>
+      </DialogActions>
+    </Dialog>
   );
-};
-
-export default Transfers;
+}

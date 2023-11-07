@@ -178,7 +178,7 @@ export default function Main({
               />
             ) : (
               <>
-                <SellerTokenList sellerTokens={sellerTokens} />
+                <SellerTokenList sellerTokens={sellerTokens} updateInfo={updateInfo} setUpdateInfo={setUpdateInfo}/>
                 <CreateTokenForm
                   updateInfo={updateInfo}
                   setUpdateInfo={setUpdateInfo}
