@@ -2,24 +2,12 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import {
-  Badge,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Stack,
-  TextField,
 } from "@mui/material";
 import TrackCard from "./TrackCard";
-import SellerTokenCard, { SellerTokenList } from "./SellerTokenCard";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import NavigationIcon from "@mui/icons-material/Navigation";
+import  { SellerTokenList } from "./SellerTokenCard";
 import SellerOrderCard from "./SellerOrderCard";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 import ConnectBtn from "./ConnectBtn";
 import TokenList from "./TokenList";

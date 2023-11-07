@@ -18,15 +18,7 @@ export default function TokenCard({
   qtyLeft,
   onClickRedeem,
 }: TokenCardProps) {
-  //database part
-
-
-
-
-
-
-
-
+  
   return (
     <Card sx={{ display: "flex", width: "100%", maxWidth: 345 }}>
       <CardMedia
