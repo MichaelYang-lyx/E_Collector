@@ -12,15 +12,96 @@ interface TokenQtysProps {
   redeemed: number;
 }
 
+interface SellerTokenCardProps {
+  image: string;
+  name: string;
+  tokenQtys: TokenQtysProps;
+  id: string;
+  onClickIssue: () => void;
+}
+
+export function SellerTokenList({
+  sellerTokens,
+}: {
+  sellerTokens: SellerTokenCardProps[];
+}) {
+  const [open, setOpen] = React.useState(false);
+  const [productToIssue, setProductToIssue] =
+    React.useState<null | SellerTokenCardProps>(null);
+
+  const handleClickIssue = (productToIssue: SellerTokenCardProps) => {
+    setOpen(true);
+    setProductToIssue(productToIssue);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <>
+      <Stack spacing={2} sx={{ width: "100%", maxWidth: 345 }}>
+        {sellerTokens.map((token) => (
+          <SellerTokenCard
+            image={token.image}
+            name={token.name}
+            tokenQtys={token.tokenQtys}
+            id={token.id}
+            key={token.id}
+            onClickIssue={() => handleClickIssue(token)}
+          />
+        ))}
+      </Stack>
+      <IssueDialog
+        open={open}
+        onClose={handleClose}
+        productId={productToIssue?.id}
+        productName={productToIssue?.name}
+      />
+    </>
+  );
+}
+
+function IssueDialog({ open, onClose, productId, productName }) {
+  const [quantity, setQuantity] = useState(1);
+
+  const handleIssue = () => {
+    onClose();
+    console.log({ productId, quantity });
+  };
+
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Issue {productName}</DialogTitle>
+      <DialogContent>
+        <div>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Quantity"
+            type="number"
+            fullWidth
+            value={quantity}
+            onChange={(e) => setQuantity(parseInt(e.target.value))}
+          />
+        </div>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleIssue}>Issue</Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
 export default function SellerTokenCard({
   image,
   name,
   tokenQtys,
-}: {
-  image: string;
-  name: string;
-  tokenQtys: TokenQtysProps;
-}) {
+  id,
+  onClickIssue,
+}: SellerTokenCardProps) {
   return (
     <Card sx={{ maxWidth: 345, width: "100%" }}>
       <CardMedia sx={{ height: 140 }} image={image} title="green iguana" />
@@ -31,7 +112,9 @@ export default function SellerTokenCard({
         <TokenQtys {...tokenQtys} />
       </CardContent>
       <CardActions>
-        <Button size="small">Issue</Button>
+        <Button size="small" onClick={onClickIssue}>
+          Issue
+        </Button>
         <Button size="small">Send</Button>
       </CardActions>
     </Card>
@@ -45,6 +128,15 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Stack,
+  TextField,
+} from "@mui/material";
+import { useState } from "react";
 
 function createData(name: string, value: number) {
   return { name, value };
@@ -59,7 +151,10 @@ function TokenQtys({ sellerHold, buyerHold, redeemed }: TokenQtysProps) {
             createData("Seller hold", sellerHold),
             createData("Buyer hold", buyerHold),
             createData("Redeemed", redeemed),
-            createData("Issued", Number(sellerHold) + Number(buyerHold) + Number(redeemed)),
+            createData(
+              "Issued",
+              Number(sellerHold) + Number(buyerHold) + Number(redeemed)
+            ),
           ].map((row) => (
             <TableRow
               key={row.name}

@@ -12,7 +12,7 @@ import {
   TextField,
 } from "@mui/material";
 import TrackCard from "./TrackCard";
-import SellerTokenCard from "./SellerTokenCard";
+import SellerTokenCard, { SellerTokenList } from "./SellerTokenCard";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -26,10 +26,9 @@ import TokenList from "./TokenList";
 import { getSellerTokens } from "./queryDatabase/QuerySellerTokens";
 import { getBuyerTokens } from "./queryDatabase/QueryBuyerTokens";
 import { getBuyerOrders } from "./queryDatabase/QueryBuyerOrders";
-import React, { useContext, useEffect, useState,useRef  } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import CreateTokenForm from "./interactWithBlockchain/CreateTokenForm";
-
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -138,10 +137,8 @@ export default function Main({
 
   useEffect(() => {
     queryAll();
-    console.log('update')
+    console.log("update");
   }, [updateInfo]);
-
- 
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -174,22 +171,18 @@ export default function Main({
         ) : (
           <>
             {mode === "buyer" ? (
-              <TokenList tokens={buyerTokens}
+              <TokenList
+                tokens={buyerTokens}
                 updateInfo={updateInfo}
-                setUpdateInfo={setUpdateInfo} />
+                setUpdateInfo={setUpdateInfo}
+              />
             ) : (
               <>
-                {sellerTokens.map(({ image, name, tokenQtys, id }) => (
-                  <SellerTokenCard
-                    image={image}
-                    name={name}
-                    tokenQtys={tokenQtys}
-                    key={id}
-                  />
-                ))}
-                <CreateTokenForm   
-                updateInfo={updateInfo}
-                setUpdateInfo={setUpdateInfo}/>
+                <SellerTokenList sellerTokens={sellerTokens} />
+                <CreateTokenForm
+                  updateInfo={updateInfo}
+                  setUpdateInfo={setUpdateInfo}
+                />
               </>
             )}
           </>
