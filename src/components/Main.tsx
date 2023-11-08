@@ -1,12 +1,9 @@
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import {
-  Button,
-  Stack,
-} from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import TrackCard from "./TrackCard";
-import  { SellerTokenList } from "./SellerTokenCard";
+import { SellerTokenList } from "./SellerTokenCard";
 import SellerOrderCard from "./SellerOrderCard";
 import { styled } from "@mui/material/styles";
 import ConnectBtn from "./ConnectBtn";
@@ -168,7 +165,11 @@ export default function Main({
               />
             ) : (
               <>
-                <SellerTokenList sellerTokens={sellerTokens} updateInfo={updateInfo} setUpdateInfo={setUpdateInfo}/>
+                <SellerTokenList
+                  sellerTokens={sellerTokens}
+                  updateInfo={updateInfo}
+                  setUpdateInfo={setUpdateInfo}
+                />
                 <CreateTokenForm
                   updateInfo={updateInfo}
                   setUpdateInfo={setUpdateInfo}
@@ -201,27 +202,27 @@ export default function Main({
               <Stack spacing={2} sx={{ width: "100%", maxWidth: 345 }}>
                 {[
                   {
-                    imageSrc: "/images/toilet-papers.jpg",
-                    name: "Toilet Paper",
+                    id: "order1",
+                    productName: "Toilet Paper",
+                    imgSrc: "/images/toilet-papers.jpg",
                     qty: 10,
-                    buyer: "Bob",
-                    id: "Toilet Paper",
+                    buyerName: "Bob",
+                    buyerPhone: "+852 1234 5678",
+                    buyerAddress: `Flat 25, 12/F, Acacia Building
+                    150 Nathan Road
+                    Tsim Sha Tsui, Kowloon`,
                   },
                   {
-                    imageSrc: "/images/wine-bottles.jpg",
-                    name: "Red Wine",
+                    id: "order2",
+                    productName: "Red Wine",
+                    imgSrc: "/images/wine-bottles.jpg",
                     qty: 3,
-                    buyer: "Amy",
-                    id: "Red Wine",
+                    buyerName: "Alice",
+                    buyerPhone: "+852 1234 5678",
+                    buyerAddress: `Flat 25, 12/F, Acacia Building`,
                   },
-                ].map((token) => (
-                  <SellerOrderCard
-                    key={token.id}
-                    imageSrc={token.imageSrc}
-                    name={token.name}
-                    qty={token.qty}
-                    buyer={token.buyer}
-                  />
+                ].map((order) => (
+                  <SellerOrderCard key={order.id} order={order} />
                 ))}
               </Stack>
             )}
@@ -229,7 +230,7 @@ export default function Main({
         )}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-      <FriendsPage/>
+        <FriendsPage />
       </CustomTabPanel>
     </Box>
   );
