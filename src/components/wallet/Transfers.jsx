@@ -13,6 +13,9 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
+
+
+
 const Transfers = (props) => {
   const [transferHash, setTransferHash] = useState(null);
   const [info, setInfo] = useState(null);

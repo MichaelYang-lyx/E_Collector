@@ -50,6 +50,7 @@ export const getBuyerOrders = async (userID) => {
       status:statusMap.get(item.status),
       qty: item.quantity,
       id: item.uid,
+      contractAddress:item.contractAddress,
     }));
     return ordersArray;
   }

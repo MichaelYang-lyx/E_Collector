@@ -10,7 +10,7 @@ const Navbar = () => {
     <div className='navbar'>
       
       <div className="user">
-        <img src={currentUser.photoURL} alt="" />
+        <img src={currentUser.photoURL} alt="" width="25" height="25" />
         <span>{currentUser.displayName}</span>
       </div>
     </div>

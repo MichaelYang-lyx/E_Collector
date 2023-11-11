@@ -9,6 +9,7 @@ export interface TokenCardProps {
   imageSrc: string;
   name: string;
   qtyLeft: number;
+  tokenContract:string;
   onClickRedeem: () => void;
 }
 
@@ -16,6 +17,7 @@ export default function TokenCard({
   imageSrc,
   name,
   qtyLeft,
+  tokenContract,
   onClickRedeem,
 }: TokenCardProps) {
   

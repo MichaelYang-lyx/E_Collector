@@ -8,6 +8,7 @@ interface TokenListItemProps {
   name: string;
   qtyLeft: number;
   id: string;
+  tokenContract:string;
 }
 interface TokenListPropsWithInfo {
   tokens: TokenListItemProps[];
@@ -25,9 +26,14 @@ export default function TokenList({
   const [productToRedeem, setProductToRedeem] =
     React.useState<null | TokenListItemProps>(null);
 
+
+
   const handleClickRedeem = (productToRedeem: TokenListItemProps) => {
+    console.log(1232)
+    console.log(tokens)
     setOpen(true);
     setProductToRedeem(productToRedeem);
+    console.log(productToRedeem)
   };
 
   const handleClose = () => {
@@ -42,6 +48,7 @@ export default function TokenList({
             imageSrc={token.imageSrc}
             name={token.name}
             qtyLeft={token.qtyLeft}
+            tokenContract={token.tokenContract}
             onClickRedeem={() => handleClickRedeem(token)}
           />
         ))}
@@ -51,8 +58,10 @@ export default function TokenList({
         onClose={handleClose}
         productId={productToRedeem?.id}
         productName={productToRedeem?.name}
+        tokenContract={productToRedeem?.tokenContract}
         updateInfo={updateInfo}
         setUpdateInfo={setUpdateInfo}
+
       />
     </>
   );

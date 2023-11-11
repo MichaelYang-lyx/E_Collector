@@ -58,6 +58,7 @@ export const getBuyerTokens = async (userID) => {
       name: item.tName,
       qtyLeft: item.quantity,
       id: item.uid,
+      tokenContract:item.contractAddress,
     }));
     return tokensArray
   }

@@ -10,6 +10,7 @@ export interface TrackCardProps {
   name: string;
   qty: number;
   status: string;
+  tokenContract:string;
 }
 
 export default function TrackCard({
@@ -17,6 +18,7 @@ export default function TrackCard({
   name,
   qty,
   status,
+  tokenContract,
 }: TrackCardProps) {
   return (
     <Card sx={{ display: "flex", width: "100%", maxWidth: 345 }}>

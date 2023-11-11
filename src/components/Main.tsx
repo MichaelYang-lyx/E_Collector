@@ -9,6 +9,7 @@ import { styled } from "@mui/material/styles";
 import ConnectBtn from "./ConnectBtn";
 import TokenList from "./TokenList";
 import { getSellerTokens } from "./queryDatabase/QuerySellerTokens";
+import { getSellerOrders } from "./queryDatabase/QuerySellerOrders";
 import { getBuyerTokens } from "./queryDatabase/QueryBuyerTokens";
 import { getBuyerOrders } from "./queryDatabase/QueryBuyerOrders";
 import React, { useContext, useEffect, useState, useRef } from "react";
@@ -102,14 +103,22 @@ export default function Main({
   const [sellerTokens, setSellerTokens] = useState<any[]>([]);
   const [buyerTokens, setBuyerTokens] = useState<any[]>([]);
   const [buyerOrders, setBuyerOrders] = useState<any[]>([]);
+  const [sellerOrders, setSellerOrders] = useState<any[]>([]);
 
   const [updateInfo, setUpdateInfo] = useState<number>(0);
 
   const queryAll = async () => {
-    const sellerTokensArrary = await getSellerTokens(userID);
-    if (sellerTokensArrary !== undefined) {
-      setSellerTokens(sellerTokensArrary);
+    const sellerTokensArray = await getSellerTokens(userID);
+    if (sellerTokensArray !== undefined) {
+      setSellerTokens(sellerTokensArray);
     }
+
+    const sellerOrdersArray = await getSellerOrders(userID);
+
+    if (sellerOrdersArray !== undefined) {
+      setSellerOrders(sellerOrdersArray);
+    }
+
     const buyerTokensArray = await getBuyerTokens(userID);
     if (buyerTokensArray !== undefined) {
       setBuyerTokens(buyerTokensArray);
@@ -195,34 +204,19 @@ export default function Main({
                     name={token.name}
                     qty={token.qty}
                     status={token.status}
+                    tokenContract={token.tokenContract}
                   />
                 ))}
               </Stack>
             ) : (
               <Stack spacing={2} sx={{ width: "100%", maxWidth: 345 }}>
-                {[
-                  {
-                    id: "order1",
-                    productName: "Toilet Paper",
-                    imgSrc: "/images/toilet-papers.jpg",
-                    qty: 10,
-                    buyerName: "Bob",
-                    buyerPhone: "+852 1234 5678",
-                    buyerAddress: `Flat 25, 12/F, Acacia Building
-                    150 Nathan Road
-                    Tsim Sha Tsui, Kowloon`,
-                  },
-                  {
-                    id: "order2",
-                    productName: "Red Wine",
-                    imgSrc: "/images/wine-bottles.jpg",
-                    qty: 3,
-                    buyerName: "Alice",
-                    buyerPhone: "+852 1234 5678",
-                    buyerAddress: `Flat 25, 12/F, Acacia Building`,
-                  },
-                ].map((order) => (
-                  <SellerOrderCard key={order.id} order={order} />
+                {sellerOrders.map((order) => (
+                  <SellerOrderCard
+                    key={order.id}
+                    order={order}
+                    updateInfo={updateInfo}
+                    setUpdateInfo={setUpdateInfo}
+                  />
                 ))}
               </Stack>
             )}
