@@ -10,7 +10,7 @@ import ConnectBtn from "./ConnectBtn";
 import Navbar from "./chatComponents/Navbar";
 import React from "react";
 import { signOut } from "firebase/auth";
-import { auth } from '../firebase'
+import { auth } from "../firebase";
 
 export default function Header({
   connected,
@@ -39,13 +39,24 @@ export default function Header({
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
+          <Box
+            sx={{
+              height: "2.5em",
+              width: "2.5em",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              mr: 2,
+            }}
+          >
+            <img src="/images/Logo.png" alt="Logo" width="100%" />
+          </Box>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             E-Collector
             {mode === "seller" && " · Seller"}
           </Typography>
-          <button onClick={()=>signOut(auth)}>logout</button>
-          <Navbar/>
-          
+          <button onClick={() => signOut(auth)}>logout</button>
+          <Navbar />
           {connected ? (
             <div>
               <IconButton
@@ -57,7 +68,6 @@ export default function Header({
                 color="inherit"
               >
                 <AccountCircle />
-              
               </IconButton>
               <Menu
                 id="menu-appbar"
