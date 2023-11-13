@@ -14,6 +14,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { v4 as uuid } from "uuid";
+import { updatePassiveOperations } from "../queryDatabase/BasicQuery";
 
 const Redeems = (props) => {
   const [transferHash, setTransferHash] = useState(null);
@@ -52,7 +53,7 @@ const Redeems = (props) => {
         status: 0,
         shippingInfo: shippingInfo,
       });
-     
+      await updatePassiveOperations(merchantID);
     console.log(uid);
  
   };

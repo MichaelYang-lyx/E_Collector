@@ -112,6 +112,11 @@ const Register2 = () => {
               photoURL: downloadURL,
             });
 
+            await setDoc(doc(db, "user_passive_operations", res.user.uid), {
+              uid: res.user.uid,
+              number:0
+            });
+
             //create empty user chats on firestore
             await setDoc(doc(db, "userChats", res.user.uid), {});
             navigate("/");

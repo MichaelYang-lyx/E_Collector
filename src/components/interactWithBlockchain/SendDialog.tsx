@@ -19,6 +19,7 @@ import {
   getDoc,
   updateDoc,
 } from "firebase/firestore";
+import { updatePassiveOperations } from "../queryDatabase/BasicQuery";
 
 export function SendDialog({
   open,
@@ -81,8 +82,9 @@ export function SendDialog({
         quantity: current_quantity1,
       });
     } else {
+      
+      
       //如果沒有就新增
-
       console.log("Document does not exist!");
       await setDoc(doc(db, "consumer_tokens", uid), {
         uid: uid,
@@ -92,7 +94,7 @@ export function SendDialog({
         merchantID: merchantID,
       });
     }
-
+    await updatePassiveOperations(userID)
     console.log(uid);
   };
 

@@ -16,6 +16,8 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import CreateTokenForm from "./interactWithBlockchain/CreateTokenForm";
 import FriendsPage from "./FriendsPage";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -134,6 +136,23 @@ export default function Main({
     queryAll();
     console.log("update");
   }, [updateInfo]);
+
+  useEffect(() => {
+    const getUpdate = () => {
+      const unsub = onSnapshot(
+        doc(db, "user_passive_operations", currentUser.uid),
+        (doc) => {
+          queryAll();
+        }
+      );
+
+      return () => {
+        unsub();
+      };
+    };
+
+    currentUser.uid && getUpdate();
+  }, [currentUser.uid]);
 
   return (
     <Box sx={{ width: "100%" }}>

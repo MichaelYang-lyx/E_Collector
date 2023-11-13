@@ -28,6 +28,8 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
+import { updatePassiveOperations } from "./queryDatabase/BasicQuery";
+
 
 export default function SellerOrderCard({
   order,
@@ -47,6 +49,9 @@ export default function SellerOrderCard({
     );
     const querySnapshot2 = await getDocs(query2);
     const status = Number(querySnapshot2.docs[0].data().status);
+
+    const buyerID = Number(querySnapshot2.docs[0].data().consumerID);
+    await updatePassiveOperations(buyerID);
     
   };
 

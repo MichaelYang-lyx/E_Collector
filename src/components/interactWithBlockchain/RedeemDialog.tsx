@@ -24,6 +24,7 @@ import {
 import { db } from "../../firebase";
 import { ethers } from "ethers";
 import tokenData from "../wallet/Contracts/Token.json";
+import { updatePassiveOperations } from "../queryDatabase/BasicQuery";
 
 export default function RedeemDialog({
   open,
@@ -111,6 +112,7 @@ export default function RedeemDialog({
       status: 0,
       shippingInfo: shippingInfo,
     });
+    await updatePassiveOperations(merchantID);
   };
 
   const handleRedeem = async () => {
