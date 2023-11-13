@@ -42,14 +42,13 @@ export default function SellerOrderCard({
 }) {
   const [shipped, setShipped] = React.useState(false);
   
-  const getStatus = async () => {
+  const datasetProcess = async () => {
     const query2 = await query(
       collection(db, "tracks"),
       where("uid", "==", order.id)
     );
     const querySnapshot2 = await getDocs(query2);
-    const status = Number(querySnapshot2.docs[0].data().status);
-
+  
     const buyerID = Number(querySnapshot2.docs[0].data().consumerID);
     await updatePassiveOperations(buyerID);
     
@@ -67,6 +66,7 @@ export default function SellerOrderCard({
     // process consumer_tokens database
     try {
       const docRef2 = doc(db, "tracks", order.id);
+      await datasetProcess()
       console.log(docRef2);
       await updateDoc(docRef2, {
         uid: order.id,
