@@ -63,7 +63,7 @@ export async function updatePassiveOperations(passiveUserId) {
 
     await updateDoc(docRef, {
       uid: passiveUserId,
-      quantity: current_number,
+      number: current_number,
     });
   } else {
     
