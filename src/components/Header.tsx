@@ -37,24 +37,19 @@ export default function Header({
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" color="transparent">
         <Toolbar>
           <Box
             sx={{
-              height: "2.5em",
-              width: "2.5em",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              mr: 2,
+              flexGrow: 1,
+              my: 1,
             }}
           >
-            <img src="/images/Logo.png" alt="Logo" width="100%" />
+            <img src="/images/Logo.png" alt="Logo" height="60em" />
           </Box>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            E-Collector
-            {mode === "seller" && " · Seller"}
-          </Typography>
+          {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            {mode === "seller" && "Seller"}
+          </Typography> */}
           <button onClick={() => signOut(auth)}>logout</button>
           <Navbar />
           {connected ? (
