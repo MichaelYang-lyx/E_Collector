@@ -35,7 +35,7 @@ proecol.store
 <!-- CONTACT -->
 ## Contact
 
-Yibo Yang - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Yibo Yang - yyanggh@connect.ust.com
 
 Project Link: [https://ecol.store](https://ecol.store)
 
