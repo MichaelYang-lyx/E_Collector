@@ -20,10 +20,8 @@
 
 
 
-<!-- ABOUT THE PROJECT -->
+<!-- Introducing E-Collector : The Future of E-commerce -->
 ## About The Project
-
-Introducing e-Collector: The Future of E-commerce!
 
 E-Collector is a game-changer for both buyers and sellers!
 
