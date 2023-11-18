@@ -6,7 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { AuthContext } from "../../context/AuthContext";
-import tokenData from "../wallet/Contracts/Token.json";
+import tokenData from "./Contracts/Token.json";
 import { ethers } from "ethers";
 import { db } from "../../firebase";
 import {

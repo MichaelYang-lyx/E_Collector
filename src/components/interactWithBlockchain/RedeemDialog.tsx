@@ -23,7 +23,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { ethers } from "ethers";
-import tokenData from "../wallet/Contracts/Token.json";
+import tokenData from "./Contracts/Token.json";
 import { updatePassiveOperations } from "../queryDatabase/BasicQuery";
 
 export default function RedeemDialog({

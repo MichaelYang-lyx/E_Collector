@@ -17,7 +17,7 @@ import { v4 as uuid } from "uuid";
 
 import { useNavigate, Link } from "react-router-dom";
 
-import tokenfactoryData from "../wallet/Contracts/TokenFactory.json";
+import tokenfactoryData from "./Contracts/TokenFactory.json";
 import { contractAddress } from "../../Global";
 import "../../style.scss";
 import { AuthContext } from "../../context/AuthContext";

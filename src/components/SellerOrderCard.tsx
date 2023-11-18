@@ -49,7 +49,7 @@ export default function SellerOrderCard({
     );
     const querySnapshot2 = await getDocs(query2);
   
-    const buyerID = Number(querySnapshot2.docs[0].data().consumerID);
+    const buyerID = querySnapshot2.docs[0].data().consumerID;
     await updatePassiveOperations(buyerID);
     
   };

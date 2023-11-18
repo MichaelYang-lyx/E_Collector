@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { IssueDialog } from "./interactWithBlockchain/IssueDialog";
 import { SendDialog } from "./interactWithBlockchain/SendDialog";
-import tokenData from "./wallet/Contracts/Token.json";
+import tokenData from "./interactWithBlockchain/Contracts/Token.json";
 import { AuthContext } from "../context/AuthContext";
 import { ethers } from "ethers";
 
