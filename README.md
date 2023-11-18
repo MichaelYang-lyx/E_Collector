@@ -37,7 +37,7 @@ proecol.store
 
 Yibo Yang - [@your_twitter](https://twitter.com/your_username) - email@example.com
 
-Project Link: [ecol.store](ecol.store)
+Project Link: [ecol.store](https://ecol.store)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
