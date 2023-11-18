@@ -23,28 +23,16 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-proecol.store
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+Introducing e-Collector: The Future of E-commerce!
 
-这是我们第一个demo Test.
-这是我们第一个demo Test.
+E-Collector is a game-changer for both buyers and sellers!
 
-这是我们第一个demo Test.
+It's a token that uses blockchain to let you buy goods now and get them as you like, anytime, anywhere!
 
-这是我们第一个demo Test.
+It's not a coupon or a gift card. It's a digital asset that you can trade, transfer or gift as you wish!
 
-这是我们第一个demo Test.
+It saves you time and money, improves the circulation of goods, and helps sellers earn more and keep customers happy!
 
-
-这是我们第一个demo Test.
-
-这是我们第一个demo Test.
-这是我们第一个demo Test.
-
-
-这是我们第一个demo Test.
-这是我们第一个demo Test.
-这是我们第一个demo Test.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
