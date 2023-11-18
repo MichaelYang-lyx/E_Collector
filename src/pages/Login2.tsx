@@ -4,10 +4,12 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import styles from "../components/wallet/Wallet.module.css";
 import { auth, db } from "../firebase";
+import GitHubCorner from "../GitHubCorner";
+import { Box } from "@mui/material";
 
 const Login2: React.FC = () => {
   const [err, setErr] = useState<boolean>(false);
-  const [connButtonText, setConnButtonText] = useState<string>("Connect Wallet");
+  const [connButtonText, setConnButtonText] = useState<string>("Click To Connect Wallet");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [defaultAccount, setDefaultAccount] = useState<string | null>(null);
 
@@ -83,15 +85,16 @@ const Login2: React.FC = () => {
   return (
     <div className="formContainer">
       <div className="formWrapper">
+      
+      <img src="/images/Logo.png" alt="Logo" height="80em"  className="imglogo"/>
         <div>
-          <h2> {"Connect your Wsallet"} </h2>
           <button className={styles.button6} onClick={connectWalletHandler}>
             <h3>Address: {defaultAccount}</h3>
             {connButtonText}
           </button>
         </div>
 
-        <span className="logo">E-collector</span>
+        
         <span className="title">Login</span>
         <form onSubmit={handleSubmit}>
           <input type="password" placeholder="password" />
@@ -102,6 +105,7 @@ const Login2: React.FC = () => {
           You don't have an account? <Link to="/register2">Register</Link>
         </p>
       </div>
+      <GitHubCorner/>
     </div>
   );
 };

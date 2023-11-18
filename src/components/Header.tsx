@@ -7,10 +7,12 @@ import { AccountCircle, Logout } from "@mui/icons-material";
 import { ButtonGroup, Chip, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import ConnectBtn from "./ConnectBtn";
-import Navbar from "./chatComponents/Navbar";
-import React from "react";
+import React,{ useContext } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import { AuthContext } from '../context/AuthContext'
+
+
 
 export default function Header({
   connected,
@@ -24,7 +26,7 @@ export default function Header({
   onChangeMode: (mode: "buyer" | "seller") => void;
 }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
+  const {currentUser}:any = useContext(AuthContext)
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -38,7 +40,8 @@ export default function Header({
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="transparent">
-        <Toolbar>
+        <Toolbar
+        >
           <Box
             sx={{
               flexGrow: 1,
@@ -47,11 +50,8 @@ export default function Header({
           >
             <img src="/images/Logo.png" alt="Logo" height="60em" />
           </Box>
-          {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {mode === "seller" && "Seller"}
-          </Typography> */}
-          <button onClick={() => signOut(auth)}>logout</button>
-          <Navbar />
+         
+          <span>{currentUser.displayName}</span>
           {connected ? (
             <div>
               <IconButton
@@ -62,7 +62,7 @@ export default function Header({
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+              <img src={currentUser.photoURL} alt="" width="25" height="25" />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -82,10 +82,10 @@ export default function Header({
                 <MenuItem
                   onClick={() => {
                     handleClose();
-                    onConnect(false);
+                    signOut(auth);
                   }}
                 >
-                  Disconnect
+                  Sign out
                 </MenuItem>
                 <MenuItem
                   onClick={() => {

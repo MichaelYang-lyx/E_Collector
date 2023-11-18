@@ -1,8 +1,5 @@
 import React, { useContext,useState} from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
-
-
 import { AuthContext } from '../context/AuthContext'
 import { useNavigate, Link } from "react-router-dom";
 import Header from '../components/Header';
@@ -18,7 +15,6 @@ const Home = () => {
     
     <div className='navbar'>
       <div className="container">
-
 
       <Header
         connected={connected}

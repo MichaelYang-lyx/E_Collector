@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "../components/wallet/Wallet.module.css";
+import GitHubCorner from "../GitHubCorner";
 
 const Register2 = () => {
   const [err, setErr] = useState(false);
@@ -142,14 +143,14 @@ const Register2 = () => {
   return (
     <div className="formContainer">
       <div className="formWrapper">
+      <img src="/images/Logo.png" alt="Logo" height="80em"  className="imglogo"/>
         <div>
-          <h2> {"Connect your wallet"} </h2>
           <button className={styles.button6} onClick={connectWalletHandler}>
             <h3>Address: {defaultAccount}</h3>
             {connButtonText}
           </button>
         </div>
-        <span className="logo">E-collector</span>
+        
         <span className="title">Register</span>
         <form onSubmit={handleSubmit}>
           <input required type="text" placeholder="display name" />
@@ -176,6 +177,7 @@ const Register2 = () => {
           You do have an account? <Link to="/login2">Login</Link>
         </p>
       </div>
+      <GitHubCorner/>
     </div>
   );
 };

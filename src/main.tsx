@@ -10,7 +10,6 @@ root.render(
   <AuthContextProvider>
     <ChatContextProvider>
       <React.StrictMode>
-        <GitHubCorner/>
         <App />
       </React.StrictMode>
     </ChatContextProvider>
