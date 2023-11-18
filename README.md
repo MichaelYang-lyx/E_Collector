@@ -1,4 +1,4 @@
-
+![image](https://github.com/MichaelYang-lyx/Web3.0_Project/assets/111903735/dc2af710-0590-4feb-8a3f-2ae3b11efb59)![image](https://github.com/MichaelYang-lyx/Web3.0_Project/assets/111903735/d26ce2fb-e6c3-4ce7-92e0-6423fbb0e505)
 
 <!-- PROJECT LOGO -->
 <br />
@@ -35,7 +35,9 @@ proecol.store
 <!-- CONTACT -->
 ## Contact
 
-Yibo Yang - yyanggh@connect.ust.com
+Michael (MSc Big Data Tech in HKUST) - yyanggh@connect.ust.com 
+Mark (IT developer) - woosts.me@gmail.com
+Sam (MSc Financial Mathematic in HKUST)- sam.lin@connect.ust.hk
 
 Project Link: [https://ecol.store](https://ecol.store)
 
