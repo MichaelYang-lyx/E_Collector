@@ -39,7 +39,7 @@ Michael (MSc Big Data Tech in HKUST) - yyanggh@connect.ust.com
 
 Mark (IT developer) - woosts.me@gmail.com
 
-Sam (MSc Financial Mathematic in HKUST)- sam.lin@connect.ust.hk
+Sam (MSc Financial Mathematic in HKUST) - sam.lin@connect.ust.hk
 
 Project Link: [https://ecol.store](https://ecol.store)
 
