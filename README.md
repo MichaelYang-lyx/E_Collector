@@ -4,14 +4,14 @@
 <br />
 <div align="center">
   <a href="public/images/Logo.png">
-    <img src="public/images/Logo.png" alt="Logo" width="80" height="80">
+    <img src="public/images/Logo.png" alt="Logo" width="400" height="200">
   </a>
 
   <h3 align="center">Web3.0 Project</h3>
 
   <p align="center">Our Web 3.0 Project
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://ecol.store"><strong>Explore our Project »</strong></a>
     <br />
   </p>
 </div>
