@@ -4,10 +4,9 @@
 <br />
 <div align="center">
   <a href="public/images/Logo.png">
-    <img src="public/images/Logo.png" alt="Logo" width="400" height="200">
+    <img src="public/images/Logo.png" alt="Logo" width="800" height="200">
   </a>
 
-  <h3 align="center">Web3.0 Project</h3>
 
   <p align="center">Our Web 3.0 Project
     <br />
