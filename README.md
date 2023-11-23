@@ -23,6 +23,8 @@
 <!-- Introducing E-Collector : The Future of E-commerce -->
 ## About The Project
 
+### What is E-Collector?
+
 E-Collector is a game-changer for both buyers and sellers!
 
 It's a token that uses blockchain to let you buy goods now and get them as you like, anytime, anywhere!
@@ -32,7 +34,12 @@ It's not a coupon or a gift card. It's a digital asset that you can trade, trans
 It saves you time and money, improves the circulation of goods, and helps sellers earn more and keep customers happy!
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+### General Structure
+
+<img src="public/images/structure.png"  width="80" height="80">
+
+
+
 
 
 
