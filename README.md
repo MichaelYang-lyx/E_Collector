@@ -3,8 +3,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="/images/logo.png">
-    <img src="/images/logo.png" alt="Logo" width="80" height="80">
+  <a href="public/images/logo.png">
+    <img src="public/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Web3.0 Project</h3>
@@ -36,7 +36,7 @@ It saves you time and money, improves the circulation of goods, and helps seller
 
 ### General Structure
 
-<img src="public/images/structure.png"  width="80" height="80">
+<img src="public/images/structure.png" align="center" width="800" height="600">
 
 
 
