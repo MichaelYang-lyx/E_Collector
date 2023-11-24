@@ -99,7 +99,7 @@ export default function RedeemDialog({
     await updateDoc(docRef2, {
       uid: productID,
       redeemed: original_redeemed + Number(quantity),
-      buyer_hold: original_buyer_hold + Number(quantity),
+      buyer_hold: original_buyer_hold - Number(quantity),
     });
 
     await setDoc(doc(db, "tracks", uid), {
