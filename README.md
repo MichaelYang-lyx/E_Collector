@@ -1,8 +1,8 @@
 ![image](https://github.com/MichaelYang-lyx/Web3.0_Project/assets/111903735/dc2af710-0590-4feb-8a3f-2ae3b11efb59)![image](https://github.com/MichaelYang-lyx/Web3.0_Project/assets/111903735/d26ce2fb-e6c3-4ce7-92e0-6423fbb0e505)
-<div id=“readme-top”></div>
+
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
+<div align="center" id=“readme-top”>
   <a href="public/images/Logo.png">
     <img src="public/images/Logo.png" width="800" height="200">
   </a>
