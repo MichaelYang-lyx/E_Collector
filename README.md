@@ -66,6 +66,7 @@ Axiomesh Facucet Link:[https://faucet.aries.axiomesh.io/](https://faucet.aries.a
 4. Register your account in E-collector and experience it.
 
 Just press the button to connect your wallet.
+
 <img src="public/images/register.jpg" align="center" width="500" height="400">
 
 Then just enjoy it.
