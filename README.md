@@ -49,16 +49,19 @@ Contract Link: [https://github.com/MichaelYang-lyx/Web3_contract](https://github
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
 1. Install Metamask and register an account.
+   
 Metamask Link:[https://metamask.io/download/](https://metamask.io/download/)
 
-2. Connect your Metamask Wallet to Axiomesh chain.
+3. Connect your Metamask Wallet to Axiomesh chain.
+   
 Axiomesh Resources Link:[https://docs.axiomesh.io/en/documentation/getting-started/resources/resources](https://docs.axiomesh.io/en/documentation/getting-started/resources/resources)
 <img src="public/images/connect.png" align="center" width="800" height="400">
 
-3. Get some visual money from Axiomesh Faucet.
+5. Get some visual money from Axiomesh Faucet.
+   
 Axiomesh Facucet Link:[https://faucet.aries.axiomesh.io/](https://faucet.aries.axiomesh.io/)   
 
-4. Register your account in E-collector and experience it.
+6. Register your account in E-collector and experience it.
 
 Just press the button to connect your wallet.
 <img src="public/images/register.png" align="center" width="800" height="400">
