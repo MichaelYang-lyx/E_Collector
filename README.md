@@ -37,8 +37,11 @@ It saves you time and money, improves the circulation of goods, and helps seller
 
 <img src="public/images/structure.png" align="center" width="1200" height="600">
 
-### quick start
+### Our Smart Contract
 
+Contract Link: [https://github.com/MichaelYang-lyx/Web3_contract](https://github.com/MichaelYang-lyx/Web3_contract)
+
+### quick start
 
 
 
