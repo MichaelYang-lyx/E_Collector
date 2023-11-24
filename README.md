@@ -52,16 +52,16 @@ _Below is an example of how you can instruct your audience on installing and set
 
 1. Install Metamask and register an account.
    
-Metamask Link:[https://metamask.io/download/](https://metamask.io/download/)
+Metamask Link: [https://metamask.io/download/](https://metamask.io/download/)
 
 2. Connect your Metamask Wallet to Axiomesh chain.
    
-Axiomesh Resources Link:[https://docs.axiomesh.io/en/documentation/getting-started/resources/resources](https://docs.axiomesh.io/en/documentation/getting-started/resources/resources)
+Axiomesh Resources Link: [https://docs.axiomesh.io/en/documentation/getting-started/resources/resources](https://docs.axiomesh.io/en/documentation/getting-started/resources/resources)
 <img src="public/images/connect.jpg" align="center" width="700" height="400">
 
 3. Get some visual money from Axiomesh Faucet.
    
-Axiomesh Facucet Link:[https://faucet.aries.axiomesh.io/](https://faucet.aries.axiomesh.io/)   
+Axiomesh Facucet Link: [https://faucet.aries.axiomesh.io/](https://faucet.aries.axiomesh.io/)   
 
 4. Register your account in E-collector and experience it.
 
