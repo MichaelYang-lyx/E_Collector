@@ -44,6 +44,8 @@ Contract Link: [https://github.com/MichaelYang-lyx/Web3_contract](https://github
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+<!-- Quick Start -->
 ## Quick start
 
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
@@ -70,6 +72,7 @@ Then just enjoy it.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- Get Our Project Code -->
 ## Get Our Project Code
 
 1. Clone the repo
