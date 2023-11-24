@@ -37,17 +37,47 @@ It saves you time and money, improves the circulation of goods, and helps seller
 
 <img src="public/images/structure.png" align="center" width="1200" height="600">
 
+
 ### Our Smart Contract
 
 Contract Link: [https://github.com/MichaelYang-lyx/Web3_contract](https://github.com/MichaelYang-lyx/Web3_contract)
 
-### quick start
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Quick start
 
+_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
+1. Install Metamask and register an account.
+Metamask Link:[https://metamask.io/download/](https://metamask.io/download/)
+
+2. Connect your Metamask Wallet to Axiomesh chain.
+Axiomesh Resources Link:[https://docs.axiomesh.io/en/documentation/getting-started/resources/resources](https://docs.axiomesh.io/en/documentation/getting-started/resources/resources)
+<img src="public/images/connect.png" align="center" width="800" height="400">
+
+3. Get some visual money from Axiomesh Faucet.
+Axiomesh Facucet Link:[https://faucet.aries.axiomesh.io/](https://faucet.aries.axiomesh.io/)   
+
+4. Register your account in E-collector and experience it.
+
+Just press the button to connect your wallet.
+<img src="public/images/register.png" align="center" width="800" height="400">
+
+Then just enjoy it.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Get Our Project Code
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/MichaelYang-lyx/Web3.0_Project.git
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTACT -->
 ## Contact
