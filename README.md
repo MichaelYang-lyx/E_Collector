@@ -73,12 +73,12 @@ Then just enjoy it.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- Get Our Project Code -->
+
 ## Get Our Project Code
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/MichaelYang-lyx/Web3.0_Project.git
+   git clone https://github.com/MichaelYang-lyx/E_Collector.git
    ```
 2. Install NPM packages
    ```sh
