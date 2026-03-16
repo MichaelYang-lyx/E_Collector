@@ -1,102 +1,159 @@
-![image](https://github.com/MichaelYang-lyx/Web3.0_Project/assets/111903735/dc2af710-0590-4feb-8a3f-2ae3b11efb59)![image](https://github.com/MichaelYang-lyx/Web3.0_Project/assets/111903735/d26ce2fb-e6c3-4ce7-92e0-6423fbb0e505)
 <a name="readme-top"></a>
-<!-- PROJECT LOGO -->
-<br />
-<div align="center" >
+
+<div align="center">
   <a href="public/images/Logo.png">
     <img src="public/images/Logo.png" width="800" height="200">
   </a>
 
+  <br />
 
-  <p align="center">Our Web 3.0 Project
-    <br />
-    <a href="https://ecol.store"><strong>Explore our Project »</strong></a>
-    <br />
-  </p>
+  # E-Collector
+
+  ### Decentralized Product Voucher Marketplace
+
+  [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://react.dev/)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?logo=typescript)](https://typescriptlang.org/)
+  [![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?logo=solidity)](https://soliditylang.org/)
+  [![Firebase](https://img.shields.io/badge/Firebase-10-FFCA28?logo=firebase)](https://firebase.google.com/)
+  [![Vite](https://img.shields.io/badge/Vite-4-646CFF?logo=vite)](https://vitejs.dev/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+  *A full-stack Web3 e-commerce platform where merchants issue blockchain-backed product voucher tokens and consumers trade, redeem, and track orders -- all powered by smart contract escrow and real-time Firebase.*
+
+  **[Live Demo](https://ecol.store)** | **[Smart Contracts](https://github.com/MichaelYang-lyx/Web3_contract)**
+
 </div>
 
+---
 
+## What is E-Collector?
 
+E-Collector reimagines e-commerce with **blockchain-backed product vouchers**. Instead of traditional shopping carts, merchants issue **ERC20 tokens** representing real products. Consumers purchase, trade, and redeem these tokens for physical goods -- with every transaction secured by on-chain escrow.
 
+> Not a coupon. Not a gift card. A **tradeable digital asset** backed by real products.
 
-<!-- Introducing E-Collector : The Future of E-commerce -->
-## About The Project
+### Key Features
 
-### What is E-Collector?
+| Feature | Description |
+|---------|-------------|
+| **Token-Based Commerce** | Merchants mint ERC20 tokens per product; consumers hold, trade, or redeem |
+| **Escrow Marketplace** | Trustless trading via smart contract escrow with dispute arbitration |
+| **Dual-Mode Interface** | Seamless seller/buyer toggle with role-specific dashboards |
+| **Real-Time Chat** | Firebase-powered instant messaging with image support |
+| **Analytics Dashboard** | KPI cards, product breakdown, dispute rate tracking |
+| **MetaMask Auth** | Wallet-based identity linking on-chain address to user profile |
+| **NFT Certificates** | ERC721 product NFTs with ERC2981 royalties and on-chain provenance |
 
-E-Collector is a game-changer for both buyers and sellers!
+## Architecture
 
-It's a token that uses blockchain to let you buy goods now and get them as you like, anytime, anywhere!
-
-It's not a coupon or a gift card. It's a digital asset that you can trade, transfer or gift as you wish!
-
-It saves you time and money, improves the circulation of goods, and helps sellers earn more and keep customers happy!
-
+```
++------------------------------------------------------------------+
+|                        Browser Client                             |
+|  +-------------+   +------------------+   +-------------------+  |
+|  |  MetaMask   |   |  React + TS DApp |   |  Firebase SDK     |  |
+|  |  (Signing)  |   |  (Vite + MUI)    |   |  (Auth/Firestore) |  |
+|  +------+------+   +--------+---------+   +---------+---------+  |
++---------|-------------------|------------------------|-----------+
+          |    ethers.js      |                        |
+          v                   v                        v
+  +----------------+   +----------+            +-------------+
+  | EVM Blockchain |   | Firebase |            | Firestore   |
+  | TokenFactory   |   | Auth     |            | (Real-time) |
+  | Token (x N)    |   +----------+            +-------------+
+  | Marketplace    |
+  | ProductNFT     |
+  +----------------+
+```
 
 ### General Structure
 
 <img src="public/images/structure.png" align="center" width="1200" height="600">
 
+## Tech Stack
 
-### Our Smart Contract
+<table>
+<tr><td><b>Frontend</b></td><td>React 18, TypeScript, Vite 4, Material UI 5, SCSS</td></tr>
+<tr><td><b>Blockchain</b></td><td>ethers.js v5, MetaMask SDK, Solidity 0.8.20, OpenZeppelin v5</td></tr>
+<tr><td><b>Backend</b></td><td>Firebase Auth, Cloud Firestore (real-time), Firebase Storage</td></tr>
+<tr><td><b>Smart Contracts</b></td><td>Token (ERC20+Permit), TokenFactory, Marketplace (Escrow), ProductNFT (ERC721+ERC2981)</td></tr>
+<tr><td><b>Testing</b></td><td>Hardhat, Chai, 25+ test cases</td></tr>
+<tr><td><b>Deployment</b></td><td>Axiomesh Chain (prod), Sepolia & Polygon Amoy (test)</td></tr>
+</table>
 
-Contract Link: [https://github.com/MichaelYang-lyx/Web3_contract](https://github.com/MichaelYang-lyx/Web3_contract)
+## Smart Contract Highlights
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+| Contract | What it Does |
+|----------|-------------|
+| **Token** | ERC20 + EIP-2612 Permit (gasless approvals) + RBAC + Pausable + supply cap |
+| **TokenFactory** | Permissionless deployer with on-chain registry, batch queries, deploy fee |
+| **Marketplace** | Escrow-based trading: list -> buy -> ship -> confirm, with dispute arbitration and 2.5% platform fee |
+| **ProductNFT** | ERC721 + ERC2981 royalties + state machine (Minted->Delivered) + trade count provenance |
 
+> Full contract details: [Web3_contract repo](https://github.com/MichaelYang-lyx/Web3_contract)
 
-<!-- Quick Start -->
-## Quick start
+## Frontend Highlights
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+### Custom React Hooks
+```typescript
+useWallet()          // Connect/disconnect MetaMask, listen for chain changes
+useContract<T>()     // Generic typed contract instantiation
+useTokenFactory()    // Token creation with event parsing
+useTokenBalance()    // Real-time balance queries with refresh
+useFirestoreQuery<T>() // Generic real-time Firestore subscriptions
+```
 
-1. Install Metamask and register an account.
-   
-Metamask Link: [https://metamask.io/download/](https://metamask.io/download/)
+### Seller Analytics Dashboard
+- KPI cards: total products, orders, completion rate, active listings
+- Per-product sales breakdown table
+- Dispute rate alerts
 
-2. Connect your Metamask Wallet to Axiomesh chain.
-   
-Axiomesh Resources Link: [https://docs.axiomesh.io/en/documentation/getting-started/resources/resources](https://docs.axiomesh.io/en/documentation/getting-started/resources/resources)
-<img src="public/images/connect.jpg" align="center" width="700" height="400">
+### Real-Time Features
+- Firestore `onSnapshot` listeners for instant UI updates
+- Passive operation notifications when counterparty acts
+- Live chat with text and image messages
 
-3. Get some visual money from Axiomesh Faucet.
-   
-Axiomesh Facucet Link: [https://faucet.aries.axiomesh.io/](https://faucet.aries.axiomesh.io/)   
+## Quick Start
 
-4. Register your account in E-collector and experience it.
+```bash
+# Clone
+git clone https://github.com/MichaelYang-lyx/E_Collector.git
+cd E_Collector
 
-Just press the button to connect your wallet.
+# Install dependencies
+npm install
 
-<img src="public/images/register.jpg" align="center" width="500" height="400">
+# Start dev server
+npm run dev
+```
 
-Then just enjoy it.
+### Prerequisites
+1. **MetaMask** -- [Install](https://metamask.io/download/)
+2. **Axiomesh Network** -- [Add to MetaMask](https://docs.axiomesh.io/en/documentation/getting-started/resources/resources)
+3. **Test tokens** -- [Axiomesh Faucet](https://faucet.aries.axiomesh.io/)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+## User Flow
 
+```
+Register (MetaMask) --> Connect Wallet --> Choose Mode
+                                              |
+                         +--------------------+--------------------+
+                         |                                         |
+                    SELLER MODE                              BUYER MODE
+                    - Create products (mint tokens)          - View vouchers
+                    - Issue more tokens                      - Redeem tokens
+                    - Send tokens to buyers                  - Track orders
+                    - View analytics dashboard               - Real-time chat
+                    - Manage orders & shipping
+```
 
-## Get Our Project Code
-
-1. Clone the repo
-   ```sh
-   git clone https://github.com/MichaelYang-lyx/E_Collector.git
-   ```
-2. Install NPM packages
-   ```sh
-   npm install
-   ```
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTACT -->
 ## Contact
 
-Michael (MSc Big Data Tech in HKUST) - yyanggh@connect.ust.com 
-
-Mark (IT developer) - woosts.me@gmail.com
-
-Sam (MSc Financial Mathematic in HKUST) - sam.lin@connect.ust.hk
+**Yibo Yang** -- MSc Big Data Technology, HKUST -- yyanggh@connect.ust.hk
 
 Project Link: [https://ecol.store](https://ecol.store)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## License
 
+MIT License -- Copyright (c) 2023 Yibo Yang, Sichen Wang
